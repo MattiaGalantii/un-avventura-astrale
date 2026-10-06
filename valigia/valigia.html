@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Valigia · Australia 30/10 – 20/11</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<!-- app per iPhone / offline (vedi pwa.js e LEGGIMI_SITO.md) -->
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#155f5a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Australia">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="icon" href="../icons/icon-192.png">
+<script src="../pwa.js" defer></script>
+<style>
+  :root{
+    --sand:#f3e9da;
+    --paper:#fdf8f0;
+    --paper-2:#fbf3e7;
+    --ink:#2c2420;
+    --ink-soft:#5e5147;
+    --terra:#c65a37;
+    --terra-deep:#a23f22;
+    --teal:#1f7d77;
+    --teal-deep:#155f5a;
+    --forest:#2f8a6a;
+    --forest-deep:#0f5347;
+    --ocean:#2f7fa6;
+    --pink:#d76b94;
+    --ochre:#d39b3e;
+    --line:rgba(44,36,32,.13);
+    --line-strong:rgba(44,36,32,.22);
+    --shadow:0 1px 2px rgba(44,36,32,.06),0 12px 30px -16px rgba(44,36,32,.28);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:'Hanken Grotesk',system-ui,sans-serif;
+    color:var(--ink);
+    background-color:var(--sand);
+    background-image:
+      radial-gradient(120% 90% at 8% -10%, rgba(31,125,119,.10), transparent 55%),
+      radial-gradient(120% 90% at 100% 0%, rgba(198,90,55,.13), transparent 50%),
+      radial-gradient(90% 80% at 90% 110%, rgba(211,155,62,.10), transparent 55%);
+    background-attachment:fixed;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  }
+  .wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:28px 20px 90px}
+
+  /* ---------- Hero ---------- */
+  header.hero{
+    position:relative;border-radius:22px;overflow:hidden;
+    background:linear-gradient(135deg, var(--teal-deep) 0%, var(--teal) 34%, var(--terra) 84%, var(--terra-deep) 100%);
+    color:#fdf8f0;padding:34px 30px 76px;box-shadow:var(--shadow);
+  }
+  header.hero::after{
+    content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;
+    background-image:repeating-linear-gradient(115deg,#fff 0 1px,transparent 1px 22px);
+  }
+  .hero .kicker{font-family:'Spline Sans Mono',monospace;font-size:.72rem;letter-spacing:.32em;
+    text-transform:uppercase;opacity:.85;margin:0 0 10px;position:relative}
+  .hero h1{font-family:'Fraunces',serif;font-weight:900;font-optical-sizing:auto;
+    font-size:clamp(2.4rem,8vw,4rem);line-height:.92;margin:0;letter-spacing:-.02em;position:relative}
+  .hero .route{font-family:'Fraunces',serif;font-style:italic;font-weight:500;
+    font-size:clamp(1rem,3.4vw,1.3rem);margin:12px 0 0;opacity:.95;position:relative}
+  .stats{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px;position:relative}
+  .stat{background:rgba(253,248,240,.16);border:1px solid rgba(253,248,240,.28);
+    backdrop-filter:blur(2px);border-radius:11px;padding:8px 13px;display:flex;flex-direction:column;min-width:0}
+  .stat b{font-family:'Spline Sans Mono',monospace;font-size:1.02rem;font-weight:600;letter-spacing:-.01em}
+  .stat span{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+  .hero-waves{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:58px;z-index:2;display:block}
+  .hero-waves .w-back{fill:rgba(253,248,240,.26)}
+  .hero-waves .w-front{fill:var(--sand)}
+
+  /* ---------- Toolbar ---------- */
+  .toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:22px 2px 10px;justify-content:space-between}
+  .btns{display:flex;gap:8px;flex-wrap:wrap}
+  button.tool{font-family:'Hanken Grotesk',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;
+    border:1px solid var(--line-strong);background:var(--paper);color:var(--ink);
+    border-radius:11px;padding:9px 13px;transition:.18s;box-shadow:var(--shadow)}
+  button.tool:hover{background:var(--ink);color:var(--paper);transform:translateY(-1px)}
+  button.tool.danger:hover{background:var(--terra-deep);border-color:var(--terra-deep);color:#fff}
+  .savehint{font-family:'Spline Sans Mono',monospace;font-size:.68rem;color:var(--ink-soft);
+    letter-spacing:.04em;min-height:1em;transition:.3s}
+  .savehint.flash{color:var(--teal-deep);font-weight:600}
+
+  /* ---------- Progresso ---------- */
+  .progress{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    padding:15px 16px;margin:0 2px 20px;box-shadow:var(--shadow)}
+  .progress-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px}
+  .progress-head h3{font-family:'Fraunces',serif;font-size:1.1rem;margin:0}
+  .progress-head b{font-family:'Spline Sans Mono',monospace;font-size:1.1rem;color:var(--terra-deep)}
+  .bar{height:9px;border-radius:99px;background:var(--paper-2);border:1px solid var(--line);overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--forest));transition:width .35s}
+  .progress-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:11px;
+    font-family:'Spline Sans Mono',monospace;font-size:.66rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-soft)}
+  .progress-legend b{color:var(--ink);font-size:.74rem}
+
+  /* ---------- Callout ---------- */
+  .callout{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--ochre);
+    border-radius:14px;padding:15px 17px;margin:0 2px 20px;box-shadow:var(--shadow)}
+  .callout h3{font-family:'Fraunces',serif;font-size:1.08rem;margin:0 0 8px;display:flex;align-items:center;gap:8px}
+  .callout p{margin:0 0 8px;font-size:.9rem;color:var(--ink-soft)}
+  .callout p:last-child{margin-bottom:0}
+  .callout.wash{border-left-color:var(--teal)}
+  .callout.photo{border-left-color:var(--terra)}
+  .wash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:12px}
+  .wash-card{background:var(--paper-2);border:1px solid var(--line);border-radius:11px;padding:11px 12px}
+  .wash-card b{display:block;font-family:'Spline Sans Mono',monospace;font-size:.78rem;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:3px}
+  .wash-card span{font-size:.84rem;color:var(--ink-soft)}
+  .wash-card.tbd b{color:var(--terra-deep)}
+  .wash-card.hand{background:rgba(31,125,119,.06)}
+  .wash-card.hand b{color:var(--teal)}
+  .wash-card.safety{background:rgba(47,138,106,.07)}
+  .wash-card.safety b{color:var(--forest-deep)}
+
+  /* ---------- Sezioni ---------- */
+  section.block{background:var(--paper);border:1px solid var(--line);border-radius:16px;
+    margin:0 2px 16px;box-shadow:var(--shadow);overflow:hidden}
+  .block-head{display:flex;align-items:center;gap:13px;padding:17px 18px;cursor:pointer;
+    background:var(--paper);transition:.18s;user-select:none}
+  .block-head:hover{background:var(--paper-2)}
+  .block-icon{flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+    background:var(--paper-2);border:1px solid var(--line)}
+  .block-icon svg{width:20px;height:20px;stroke-width:1.7;fill:none;stroke:var(--teal-deep);
+    stroke-linecap:round;stroke-linejoin:round}
+  .block-title{flex:1;min-width:0}
+  .block-title .n{font-family:'Spline Sans Mono',monospace;font-size:.64rem;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:2px}
+  .block-title h2{font-family:'Fraunces',serif;font-size:1.32rem;line-height:1.1;margin:0;letter-spacing:-.01em}
+  .block-title p{margin:4px 0 0;font-size:.84rem;color:var(--ink-soft)}
+  .block-count{flex:none;font-family:'Spline Sans Mono',monospace;font-size:.78rem;
+    color:var(--ink-soft);background:var(--paper-2);border:1px solid var(--line);
+    border-radius:99px;padding:4px 10px}
+  .chev{flex:none;width:16px;height:16px;stroke:var(--ink-soft);stroke-width:2;fill:none;
+    stroke-linecap:round;stroke-linejoin:round;transition:.2s}
+  section.block.open .chev{transform:rotate(180deg)}
+  .block-body{display:none;padding:0 18px 18px;border-top:1px solid var(--line)}
+  section.block.open .block-body{display:block}
+
+  section.block[data-tone="casa"] .block-icon svg{stroke:var(--teal-deep)}
+  section.block[data-tone="ibrido"] .block-icon svg{stroke:var(--ochre)}
+  section.block[data-tone="li"] .block-icon svg{stroke:var(--terra-deep)}
+  section.block[data-tone="check"] .block-icon svg{stroke:var(--forest-deep)}
+  section.block[data-tone="note"] .block-icon svg{stroke:var(--ochre)}
+
+  .notecards{display:grid;gap:10px}
+  .notecard{background:var(--paper-2);border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;border-left:3px solid var(--ochre)}
+  .notecard b{display:block;font-family:'Fraunces',serif;font-size:1rem;line-height:1.25;
+    margin-bottom:5px;letter-spacing:-.01em}
+  .notecard p{margin:0;font-size:.88rem;color:var(--ink-soft);line-height:1.55}
+
+  .group{margin-top:18px}
+  .group:first-child{margin-top:14px}
+  .group > h4{font-family:'Spline Sans Mono',monospace;font-size:.68rem;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--ink-soft);margin:0 0 9px;
+    padding-bottom:6px;border-bottom:1px dashed var(--line-strong)}
+  .group > .ghint{margin:-4px 0 10px;font-size:.82rem;color:var(--ink-soft);font-style:italic}
+
+  ul.items{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  ul.items li{display:flex;align-items:flex-start;gap:11px;padding:9px 11px;border-radius:11px;
+    border:1px solid transparent;transition:.15s}
+  ul.items li:hover{background:var(--paper-2);border-color:var(--line)}
+  ul.items li.done{opacity:.5}
+  ul.items li.done .it-name{text-decoration:line-through}
+  .cbx{flex:none;margin-top:2px;width:19px;height:19px;border-radius:6px;cursor:pointer;
+    appearance:none;-webkit-appearance:none;border:1.5px solid var(--line-strong);
+    background:var(--paper-2);display:grid;place-items:center;transition:.15s}
+  .cbx:hover{border-color:var(--teal)}
+  .cbx:checked{background:var(--teal);border-color:var(--teal)}
+  .cbx:checked::after{content:"";width:10px;height:6px;border-left:2px solid #fff;
+    border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+  .it-main{flex:1;min-width:0}
+  .it-name{font-size:.94rem;font-weight:600;line-height:1.35}
+  .it-qty{font-family:'Spline Sans Mono',monospace;font-size:.78rem;color:var(--terra-deep);
+    font-weight:600;margin-left:6px}
+  .it-note{display:block;font-size:.83rem;color:var(--ink-soft);margin-top:2px;line-height:1.45}
+  .tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+  .tag{font-family:'Spline Sans Mono',monospace;font-size:.6rem;letter-spacing:.1em;
+    text-transform:uppercase;padding:2px 7px;border-radius:99px;border:1px solid var(--line-strong);
+    color:var(--ink-soft);background:var(--paper-2)}
+  .tag.leg1{color:var(--terra-deep);border-color:rgba(198,90,55,.4);background:rgba(198,90,55,.09)}
+  .tag.leg2{color:var(--forest-deep);border-color:rgba(47,138,106,.42);background:rgba(47,138,106,.09)}
+  .tag.foto{color:var(--ocean);border-color:rgba(47,127,166,.42);background:rgba(47,127,166,.09)}
+  .tag.key{color:#fff;background:var(--terra);border-color:var(--terra)}
+  .tag.sera{color:var(--pink);border-color:rgba(215,107,148,.45);background:rgba(215,107,148,.1)}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 2px 20px;padding:13px 15px;
+    background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);align-items:center}
+  .legend > b{font-family:'Spline Sans Mono',monospace;font-size:.64rem;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--ink-soft);margin-right:4px}
+
+  footer.foot{margin-top:26px;text-align:center;color:var(--ink-soft);font-size:.8rem}
+  footer.foot b{font-family:'Fraunces',serif}
+
+  @media(max-width:640px){
+    .wrap{padding:18px 13px 70px}
+    header.hero{padding:26px 20px 66px}
+    .block-head{padding:14px 14px;gap:10px}
+    .block-body{padding:0 14px 16px}
+    .block-count{display:none}
+  }
+  @media print{
+    body{background:#fff}
+    body::before{display:none}
+    .toolbar,.hero-waves,.chev{display:none}
+    section.block .block-body{display:block !important}
+    section.block,.callout,.progress{break-inside:avoid;box-shadow:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="kicker" id="heroKicker"></p>
+    <h1 id="heroTitle"></h1>
+    <p class="route" id="heroSub"></p>
+    <div class="stats" id="heroStats"></div>
+    <svg class="hero-waves" viewBox="0 0 1440 58" preserveAspectRatio="none" aria-hidden="true">
+      <path class="w-back" d="M0,34 C180,10 320,52 520,38 C720,24 860,6 1080,26 C1240,40 1360,30 1440,20 L1440,58 L0,58 Z"></path>
+      <path class="w-front" d="M0,44 C160,26 340,58 560,46 C780,34 900,20 1120,36 C1280,48 1380,42 1440,36 L1440,58 L0,58 Z"></path>
+    </svg>
+  </header>
+
+  <div class="toolbar">
+    <div class="btns">
+      <button class="tool" id="btnExpand">Apri tutto</button>
+      <button class="tool" id="btnCollapse">Chiudi tutto</button>
+      <button class="tool" id="btnPrint">Stampa</button>
+      <button class="tool danger" id="btnReset">Azzera spunte</button>
+    </div>
+    <div class="savehint" id="saveHint"></div>
+  </div>
+
+  <div class="progress">
+    <div class="progress-head">
+      <h3>Preparazione</h3>
+      <b id="pctLabel">0%</b>
+    </div>
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="progress-legend" id="progLegend"></div>
+  </div>
+
+  <div class="callout wash" id="washBox"></div>
+
+  <div class="legend" id="legendBox"></div>
+
+  <div id="sections"></div>
+
+  <footer class="foot">
+    <p id="footText"></p>
+  </footer>
+</div>
+
+<!-- I DATI: modificali qui (a mano o con valigia.py). -->
+<script src="valigia-data.js"></script>
+<!-- IL RENDER: normalmente non serve toccarlo. -->
+<script src="valigia-app.js"></script>
+</body>
+</html>

@@ -33,11 +33,11 @@ const HUB_CONFIG = {
 
 /* Voli internazionali (dai PDF in Documenti/) */
 const HUB_FLIGHTS = [
-  { when:"gio 22 ott", from:"AMS", to:"HKG", code:"CX270", dep:"12:20", arr:"06:10 (+1)", note:"Cathay Pacific · posto 45J" },
-  { when:"ven 23 ott", from:"HKG", to:"PER", code:"CX171", dep:"15:00", arr:"sera", note:"Arrivo a Perth: conferenza fino al 30/10" },
+  { when:"gio 22 ott", from:"AMS", to:"HKG", code:"", dep:"12:20", arr:"06:10 (+1)", note:"Cathay Pacific" },
+  { when:"ven 23 ott", from:"HKG", to:"PER", code:"", dep:"15:00", arr:"sera", note:"Arrivo a Perth: conferenza fino al 30/10" },
   { when:"mar 10 nov", from:"PER", to:"ADL", code:"interno", dep:"12:00", arr:"17:20", note:"~2 h 50 · Adelaide e' avanti di 2 h 30" },
-  { when:"sab 21 nov", from:"MEL", to:"SIN", code:"SQ", dep:"00:35", arr:"05:15", note:"Singapore Airlines · scalo lungo a Changi (~18 h 40)" },
-  { when:"sab 21 nov", from:"SIN", to:"AMS", code:"SQ", dep:"23:55", arr:"06:45 (+1)", note:"Atterraggio ad Amsterdam dom 22 nov" }
+  { when:"sab 21 nov", from:"MEL", to:"SIN", code:"", dep:"00:35", arr:"05:15", note:"Singapore Airlines · scalo lungo a Changi (~18 h 40)" },
+  { when:"sab 21 nov", from:"SIN", to:"AMS", code:"", dep:"23:55", arr:"06:45 (+1)", note:"Atterraggio ad Amsterdam dom 22 nov" }
 ];
 
 /* Documenti in ../Documenti/ collegati al giorno giusto (id del giorno in trip-data.js) */
@@ -49,10 +49,10 @@ const HUB_DOCS = [
   { file:"Manta_Ray_tour.pdf", label:"Tour mante · Coral Bay", leg:"west", day:"coral-bay", kind:"tour" },
   { file:"Peron_4WD_tour_confirmation.pdf", label:"Tour 4WD Francois Peron", leg:"west", day:"monkey-mia", kind:"tour" },
   { file:"Sea_lions_excursion.pdf", label:"Escursione leoni marini · Jurien Bay", leg:"west", day:"ritorno-perth", kind:"tour" },
-  { file:"car_confirmation- VroomVroomVroom.com.au.pdf", label:"Conferma auto · East Coast (R3ZDSW)", leg:"east", day:"adelaide-arrivo", kind:"noleggio" },
+  { file:"car_confirmation- VroomVroomVroom.com.au.pdf", label:"Conferma auto · East Coast", leg:"east", day:"adelaide-arrivo", kind:"noleggio" },
   { file:"Park_Victoria_receipt.pdf", label:"Tidal River · ricevuta Parks Victoria", leg:"east", day:"wilsons-prom-transfer", kind:"alloggio" },
   { file:"PArks_Victoria_Terms-and-Conditions.pdf", label:"Parks Victoria · termini e condizioni", leg:"east", day:"wilsons-prom-transfer", kind:"alloggio" },
-  { file:"Penguin Parade - Reference # 1337903.pdf", label:"Penguin Parade · Ultimate Adventure Tour (18/11, 19:30)", leg:"east", day:"phillip-island", kind:"tour" },
+  { file:"Penguin_Parade.pdf", label:"Penguin Parade · Ultimate Adventure Tour (18/11, 19:30)", leg:"east", day:"phillip-island", kind:"tour" },
   { file:"Singapore_airlines_MEL_AMS.pdf", label:"Volo Singapore Airlines MEL → SIN → AMS", leg:"east", day:"melbourne-volo", kind:"volo" }
 ];
 
