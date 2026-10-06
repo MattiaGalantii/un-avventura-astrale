@@ -77,6 +77,7 @@
   .hero h1{
     font-family:'Fraunces',serif;font-weight:900;font-optical-sizing:auto;
     font-size:clamp(2.6rem,9vw,4.4rem);line-height:.92;margin:0;letter-spacing:-.02em;position:relative}
+  @media(max-width:520px){.hero h1{font-size:clamp(2.1rem,10vw,2.8rem);line-height:.98}}  /* telefono: il titolo va a capo invece di uscire */
   .hero .route{
     font-family:'Fraunces',serif;font-style:italic;font-weight:500;
     font-size:clamp(1rem,3.4vw,1.35rem);margin:12px 0 0;opacity:.95;position:relative}
@@ -425,7 +426,7 @@
 
   <header class="hero">
     <p class="kicker">Victoria &amp; South Australia · 10–20 Novembre</p>
-    <h1>Great&nbsp;Ocean&nbsp;Road</h1>
+    <h1>Great Ocean&nbsp;Road</h1>
     <p class="route">Adelaide → Grampians → GOR → Wilsons Prom → Phillip Island → Melbourne</p>
     <div class="stats">
       <div class="stat"><b>11</b><span>giorni</span></div>

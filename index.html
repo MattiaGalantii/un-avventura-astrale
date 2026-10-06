@@ -144,8 +144,9 @@
     <div class="bar" id="map-bar"><i></i></div>
     <div class="btns">
       <button class="btn primary" id="map-btn">Scarica mappe del percorso</button>
-      <button class="btn" id="recheck">Controlla di nuovo</button>
+      <button class="btn" id="recheck">Controlla / riprova</button>
     </div>
+    <p id="mode" style="font-size:12.5px"></p>
   </div>
 
   <nav class="tiles" id="tiles">
@@ -293,8 +294,18 @@
 
   /* ---------- istruzioni iPhone ---------- */
   if(IOS && !STANDALONE) $('#install').hidden = false;
-  if(!('serviceWorker' in navigator) || !window.caches) return;
   $('#status').hidden = false;
+  var BLOCKED = 'Su iPhone: Impostazioni → App → Safari → Avanzate → disattiva «Blocca tutti i cookie», e non usare la Navigazione privata. Poi elimina l\'icona dalla Home e aggiungila di nuovo.';
+  function showError(msg){
+    $('#st-dot').className = 'dot err';
+    $('#st-title').textContent = 'Offline non disponibile su questo telefono';
+    $('#st-text').textContent = msg + ' ' + BLOCKED;
+    $('#map-btn').disabled = true;
+  }
+  $('#mode').textContent = STANDALONE ? 'Aperta come app dalla schermata Home ✓' :
+    (IOS ? 'Aperta in Safari: per l\'offline usa l\'icona sulla schermata Home (vedi sopra).' : 'Aperta nel browser.');
+  if(!('serviceWorker' in navigator) || !window.caches){ showError('Questo browser non permette di salvare il sito.'); return; }
+  if(window.pwaSW) window.pwaSW.catch(function(){ showError('Il telefono ha bloccato il salvataggio (' + (window.pwaError || 'errore') + ').'); });
 
   /* ---------- stato offline ---------- */
   var bar = function(id, frac){ var b = $(id); b.style.display = frac == null ? 'none' : 'block'; if(frac != null) b.firstElementChild.style.width = Math.round(frac * 100) + '%'; };
@@ -302,6 +313,10 @@
   var timer = null;
 
   async function checkFiles(){
+    try{ return await checkFilesInner(); }
+    catch(e){ console.error(e); showError('Non riesco a leggere i dati salvati (' + e.name + ').'); return true; }
+  }
+  async function checkFilesInner(){
     var manifest = null;
     try{ manifest = await (await fetch('precache.json', {cache: 'no-store'})).json(); }catch(e){}
     var keys = (await caches.keys()).filter(function(k){ return k.indexOf('aus-pre-') === 0; });
@@ -323,7 +338,7 @@
     }
     dot.className = 'dot';
     $('#st-title').textContent = have ? 'Sto salvando per l\'offline…' : (navigator.onLine ? 'Preparazione offline…' : 'Non ancora salvato');
-    $('#st-text').textContent = have + ' / ' + tot + ' file · resta su questa pagina con internet finché non vedi «Pronto offline».';
+    $('#st-text').textContent = have + ' / ' + tot + ' file · resta su questa pagina con internet finché non vedi «Pronto offline». Se si blocca, tocca «Controlla / riprova».';
     bar('#st-bar', have / tot);
     return false;
   }
@@ -331,7 +346,7 @@
   poll();
   $('#recheck').onclick = async function(){
     var reg = await navigator.serviceWorker.getRegistration();
-    if(reg){ try{ await reg.update(); }catch(e){} }
+    if(reg){ try{ await reg.update(); }catch(e){} if(reg.active) reg.active.postMessage('topup'); }
     poll(); countTiles();
   };
   navigator.serviceWorker.addEventListener('controllerchange', poll);
