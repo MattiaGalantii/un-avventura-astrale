@@ -19,7 +19,7 @@
   /* ---------- stile condiviso ---------- */
   var css = document.createElement('style');
   css.textContent =
-    '.pwa-home{position:fixed;z-index:9000;left:14px;bottom:calc(14px + env(safe-area-inset-bottom));' +
+    '.pwa-home{position:fixed;z-index:9000;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));' +
     'width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;' +
     'background:#155f5a;color:#fdf8f0;box-shadow:0 6px 18px -6px rgba(44,36,32,.55);text-decoration:none;' +
     '-webkit-tap-highlight-color:transparent}' +
@@ -70,7 +70,16 @@
   /* ---------- service worker ---------- */
   if('serviceWorker' in navigator){
     var hadController = !!navigator.serviceWorker.controller;
-    navigator.serviceWorker.register(ROOT + 'sw.js', {scope: ROOT}).catch(function(err){ console.warn('SW non registrato', err); });
+    window.pwaSW = navigator.serviceWorker.register(ROOT + 'sw.js', {scope: ROOT}).then(function(reg){
+      /* con internet: completa eventuali file che non erano arrivati */
+      if(navigator.onLine) navigator.serviceWorker.ready.then(function(r){ if(r.active) r.active.postMessage('topup'); });
+      return reg;
+    }).catch(function(err){
+      console.warn('SW non registrato', err);
+      window.pwaError = (err && (err.name + ': ' + err.message)) || String(err);
+      throw err;
+    });
+    window.pwaSW.catch(function(){});
     navigator.serviceWorker.addEventListener('controllerchange', function(){
       if(!hadController){ hadController = true; return; }  /* prima installazione: niente avviso */
       toast('Nuova versione del viaggio scaricata.', 'Aggiorna', function(){ location.reload(); });
