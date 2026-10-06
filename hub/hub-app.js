@@ -581,9 +581,9 @@ function renderFlights(){
   $('#flights').innerHTML = HUB_FLIGHTS.map(f=>`<li><div class="when">${esc(f.when)}</div><div><div class="leg">${esc(f.from)} ${ico('plane',14)} ${esc(f.to)} <span class="note">${esc(f.code)}</span></div><div class="note">${esc(f.note)}</div></div><div class="times">parte <b>${esc(f.dep)}</b><br>arriva <b>${esc(f.arr)}</b></div></li>`).join('');
 }
 function renderDocs(model){
-  const kinds = {volo:'#155f5a', noleggio:'#a23f22', tour:'#d76b94', alloggio:'#9a7836'};
+  const kinds = {volo:'#155f5a', noleggio:'#a23f22', tour:'#d76b94', alloggio:'#9a7836', assicurazione:'#5b4a9e'};
   const dayOf = id => model.days.find(d=>d.id===id);
-  $('#docs').innerHTML = HUB_DOCS.map(x=>{ const d = x.day?dayOf(x.day):null; return `<li><a href="../Documenti/${encodeURIComponent(x.file)}" target="_blank" rel="noopener"><span class="ki" style="background:${kinds[x.kind]||'#5e5147'}">${esc(x.kind.slice(0,3))}</span><span><span class="lb">${esc(x.label)}</span><span class="fn">${esc(x.file)}</span></span><span class="dy">${d?esc(d.dateLabel):(x.kind==='volo'?'22 ott':'')}</span></a></li>`; }).join('')
+  $('#docs').innerHTML = HUB_DOCS.map(x=>{ const d = x.day?dayOf(x.day):null; return `<li><a href="../Documenti/${encodeURIComponent(x.file)}" target="_blank" rel="noopener"><span class="ki" style="background:${kinds[x.kind]||'#5e5147'}">${esc(x.kind.slice(0,3))}</span><span><span class="lb">${esc(x.label)}</span><span class="fn">${esc(x.file)}</span></span><span class="dy">${d?esc(d.dateLabel):esc(x.date||'')}</span></a></li>`; }).join('')
     + (location.protocol.startsWith('http') ? '' : `<li><a href="../payments_check.xlsx"><span class="ki" style="background:#5e5147">xls</span><span><span class="lb">Controllo pagamenti</span><span class="fn">payments_check.xlsx</span></span></a></li>`);
 }
 function renderSpese(){

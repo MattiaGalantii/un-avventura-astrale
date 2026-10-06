@@ -31,24 +31,30 @@ const HUB_CONFIG = {
   plannerStorage: { west:"coralcoast_v1", east:"gor_v2" }
 };
 
-/* Voli internazionali (dai PDF in Documenti/) */
+/* Voli (dai PDF in Documenti/). Numeri di volo e posti stanno nei dati cifrati (privato.json). */
 const HUB_FLIGHTS = [
   { when:"gio 22 ott", from:"AMS", to:"HKG", code:"", dep:"12:20", arr:"06:10 (+1)", note:"Cathay Pacific" },
-  { when:"ven 23 ott", from:"HKG", to:"PER", code:"", dep:"15:00", arr:"sera", note:"Arrivo a Perth: conferenza fino al 30/10" },
-  { when:"mar 10 nov", from:"PER", to:"ADL", code:"interno", dep:"12:00", arr:"17:20", note:"~2 h 50 · Adelaide e' avanti di 2 h 30" },
+  { when:"ven 23 ott", from:"HKG", to:"PER", code:"", dep:"15:00", arr:"22:40", note:"Arrivo a Perth: conferenza fino al 30/10" },
+  { when:"mer 28 ott", from:"AMS", to:"HKG", code:"", dep:"12:30", arr:"07:30 (+1)", note:"Cathay Pacific · secondo volo" },
+  { when:"gio 29 ott", from:"HKG", to:"PER", code:"", dep:"15:20", arr:"22:55", note:"Arrivo a Perth" },
+  { when:"mar 10 nov", from:"PER", to:"ADL", code:"", dep:"12:00", arr:"17:20", note:"Jetstar · ~2 h 50 · Adelaide e' avanti di 2 h 30" },
   { when:"sab 21 nov", from:"MEL", to:"SIN", code:"", dep:"00:35", arr:"05:15", note:"Singapore Airlines · scalo lungo a Changi (~18 h 40)" },
   { when:"sab 21 nov", from:"SIN", to:"AMS", code:"", dep:"23:55", arr:"06:45 (+1)", note:"Atterraggio ad Amsterdam dom 22 nov" }
 ];
 
 /* Documenti in ../Documenti/ collegati al giorno giusto (id del giorno in trip-data.js) */
 const HUB_DOCS = [
-  { file:"Cathay_AMS_Perth.pdf", label:"Volo Cathay AMS → HKG → PER", leg:"west", day:null, kind:"volo" },
+  { file:"Polizza_viaggio.pdf", label:"Assicurazione viaggio · polizza (in olandese)", leg:"all", day:null, kind:"assicurazione" },
+  { file:"Emergency_Card.pdf", label:"Assicurazione · tessera SOS 24/7", leg:"all", day:null, kind:"assicurazione" },
+  { file:"Cathay_AMS_Perth.pdf", label:"Volo Cathay AMS → HKG → PER (22 ott)", leg:"west", day:null, date:"22 ott", kind:"volo" },
+  { file:"Cathay_AMS_Perth_28ott.pdf", label:"Volo Cathay AMS → HKG → PER (28 ott)", leg:"west", day:null, date:"28 ott", kind:"volo" },
   { file:"Booking confirmation Campervan.pdf", label:"Conferma prenotazione campervan", leg:"west", day:"cervantes", kind:"noleggio" },
   { file:"Mighty_Duo_rental_agreement_ENGLISH.pdf", label:"Mighty Duo · contratto di noleggio", leg:"west", day:"cervantes", kind:"noleggio" },
   { file:"Mighty_Duo_Summary-of-Rental-Conditions.pdf", label:"Mighty Duo · riepilogo condizioni", leg:"west", day:"cervantes", kind:"noleggio" },
   { file:"Manta_Ray_tour.pdf", label:"Tour mante · Coral Bay", leg:"west", day:"coral-bay", kind:"tour" },
   { file:"Peron_4WD_tour_confirmation.pdf", label:"Tour 4WD Francois Peron", leg:"west", day:"monkey-mia", kind:"tour" },
   { file:"Sea_lions_excursion.pdf", label:"Escursione leoni marini · Jurien Bay", leg:"west", day:"ritorno-perth", kind:"tour" },
+  { file:"Jetstar_Perth_Adelaide.pdf", label:"Volo Jetstar Perth → Adelaide", leg:"west", day:"volo-adelaide", kind:"volo" },
   { file:"car_confirmation- VroomVroomVroom.com.au.pdf", label:"Conferma auto · East Coast", leg:"east", day:"adelaide-arrivo", kind:"noleggio" },
   { file:"Park_Victoria_receipt.pdf", label:"Tidal River · ricevuta Parks Victoria", leg:"east", day:"wilsons-prom-transfer", kind:"alloggio" },
   { file:"PArks_Victoria_Terms-and-Conditions.pdf", label:"Parks Victoria · termini e condizioni", leg:"east", day:"wilsons-prom-transfer", kind:"alloggio" },

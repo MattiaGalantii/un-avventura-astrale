@@ -111,7 +111,7 @@
   .pc li{margin:3px 0}
   .pc .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .pc .acts a{font:600 13.5px/1 'Hanken Grotesk',system-ui,sans-serif;text-decoration:none;color:var(--teal-deep);border:1px solid var(--line-strong);border-radius:9px;padding:8px 10px;background:#fff}
-  .pc.west{border-left:4px solid var(--terra)} .pc.east{border-left:4px solid var(--teal-map)}
+  .pc.west{border-left:4px solid var(--terra)} .pc.east{border-left:4px solid var(--teal-map)} .pc.gen{border-left:4px solid #5b4a9e}
   .pnr{font-family:'Spline Sans Mono',monospace;font-size:11.5px;color:var(--teal-deep)}
   footer{margin-top:28px;color:var(--ink-soft);font-size:12.5px;text-align:center}
   @media (max-width:380px){ .tiles{grid-template-columns:1fr} }
@@ -211,14 +211,15 @@
   else { c.innerHTML = '<b>fatto</b><span>bentornati</span>'; }
 
   /* ---------- documenti ---------- */
-  var kinds = {volo:'#155f5a', noleggio:'#a23f22', tour:'#d76b94', alloggio:'#9a7836'};
+  var kinds = {volo:'#155f5a', noleggio:'#a23f22', tour:'#d76b94', alloggio:'#9a7836', assicurazione:'#5b4a9e'};
   var docHref = function(file){
     var rel = 'Documenti/' + encodeURIComponent(file);
     /* sul PC (doppio clic) apre direttamente il PDF originale in Documenti/ */
     return ONLINE_SITE ? 'documento.html?f=' + encodeURIComponent(rel) : rel;
   };
   var html = '';
-  HUB_CONFIG.legs.forEach(function(leg){
+  var groups = [{key:'all', name:'Generale', color:'#5b4a9e'}].concat(HUB_CONFIG.legs);
+  groups.forEach(function(leg){
     var items = HUB_DOCS.filter(function(x){ return x.leg === leg.key; });
     if(!items.length) return;
     html += '<li class="leghead"><span class="sw" style="background:' + leg.color + '"></span>' + esc(leg.name) + '</li>';
@@ -250,6 +251,7 @@
     if(data.voli) renderFlights(data.voli);
     var legs = {}; HUB_CONFIG.legs.forEach(function(l){ legs[l.key] = l; });
     $('#pren').innerHTML = (data.prenotazioni || []).map(function(p, i){
+      if(p.leg === 'all') p.leg = 'gen';
       var tel = p.tel ? '<a href="tel:' + esc(p.tel.replace(/[^+0-9]/g, '')) + '">☎ ' + esc(p.tel) + '</a>' : '';
       var mail = p.contatto ? '<a href="mailto:' + esc(p.contatto) + '">✉ ' + esc(p.contatto) + '</a>' : '';
       var doc = p.doc ? '<a href="' + docHref(p.doc) + '">📄 Documento</a>' : '';
