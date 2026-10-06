@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cifra documenti · Australia</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+  :root{--sand:#f3e9da;--paper:#fdf8f0;--ink:#2c2420;--ink-soft:#5e5147;--teal-deep:#155f5a;--terra-deep:#a23f22;--line:rgba(44,36,32,.18)}
+  body{margin:0;background:var(--sand);color:var(--ink);font:16px/1.5 'Hanken Grotesk',system-ui,sans-serif}
+  main{max-width:620px;margin:40px auto;padding:24px;background:var(--paper);border:1px solid var(--line);border-radius:18px}
+  h1{font-family:'Fraunces',Georgia,serif;font-weight:600;margin:0 0 6px}
+  p,li{color:var(--ink-soft)}
+  label{display:block;font-weight:600;margin:16px 0 6px}
+  input[type=password]{width:100%;box-sizing:border-box;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
+  button{margin-top:18px;font:700 15px/1 inherit;font-family:inherit;padding:12px 16px;border:0;border-radius:10px;background:var(--teal-deep);color:var(--paper);cursor:pointer}
+  #log{margin-top:16px;font-family:'Spline Sans Mono',monospace;font-size:13px;white-space:pre-wrap}
+  .err{color:var(--terra-deep)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Cifra documenti e prenotazioni</h1>
+  <p>Per aggiungere un PDF al sito senza renderlo pubblico. Tutto avviene qui nel browser e niente viene inviato.</p>
+  <ol>
+    <li>Inserisci la password del viaggio e scegli uno o più PDF, oppure <code>Documenti/privato.json</code> se hai cambiato le prenotazioni.</li>
+    <li>Nei Download trovi i file <code>.enc</code>: spostali in <code>Australia/Documenti_cifrati/</code>, sostituendo quelli vecchi.</li>
+    <li>Tieni l'originale in <code>Australia/Documenti/</code> (non va su GitHub). Se è un PDF nuovo, aggiungilo a <code>HUB_DOCS</code> in <code>hub/hub-geo.js</code>.</li>
+    <li>Carica su GitHub i file <code>.enc</code> (e <code>hub-geo.js</code> se l'hai modificato).</li>
+  </ol>
+  <label for="pw">Password del viaggio</label>
+  <input id="pw" type="password" autocomplete="current-password">
+  <label for="files">PDF (o privato.json) da cifrare</label>
+  <input id="files" type="file" accept="application/pdf,.pdf,.json,application/json" multiple>
+  <br><button id="go">Cifra e scarica</button>
+  <div id="log"></div>
+</main>
+<script src="../Documenti_cifrati/chiave.js"></script>
+<script src="../lib/doccrypt.js"></script>
+<script>
+document.getElementById('go').onclick = async function(){
+  var log = document.getElementById('log'); log.textContent = '';
+  var files = document.getElementById('files').files, pw = document.getElementById('pw').value;
+  if(!files.length){ log.innerHTML = '<span class="err">Scegli almeno un PDF.</span>'; return; }
+  for(var i = 0; i < files.length; i++){
+    try{
+      var out = await AusDocs.encryptWith(pw, await files[i].arrayBuffer());
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([out], {type: 'application/octet-stream'}));
+      a.download = files[i].name + '.enc'; a.click();
+      log.textContent += '✓ ' + files[i].name + '.enc\n';
+      await new Promise(function(r){ setTimeout(r, 400); });
+    }catch(e){
+      log.innerHTML += '<span class="err">✗ ' + files[i].name + ': ' + (e.message === 'password sbagliata' ? 'password sbagliata' : e.message) + '</span>\n';
+      if(e.message === 'password sbagliata') break;
+    }
+  }
+};
+</script>
+</body>
+</html>

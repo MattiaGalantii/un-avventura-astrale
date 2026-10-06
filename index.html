@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Australia · due coste</title>
+<meta name="description" content="Il viaggio in Australia: hub, planner, valigia e documenti, anche offline.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#155f5a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Australia">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<!-- anteprima del link su WhatsApp / Telegram -->
+<meta property="og:title" content="Australia · due coste">
+<meta property="og:description" content="Coral Coast + Great Ocean Road · 30 ott – 21 nov 2026. Hub, planner, valigia e documenti, anche offline.">
+<meta property="og:image" content="icons/icon-512.png">
+<style>
+  :root{
+    --sand:#f3e9da;--paper:#fdf8f0;--paper-2:#fbf3e7;--ink:#2c2420;--ink-soft:#5e5147;
+    --terra:#c65a37;--terra-deep:#a23f22;--teal:#1f7d77;--teal-map:#0f8f84;--teal-deep:#155f5a;
+    --pink:#d76b94;--ochre:#d39b3e;--ok:#2f7d4f;
+    --line:rgba(44,36,32,.13);--line-strong:rgba(44,36,32,.22);
+    --shadow:0 1px 2px rgba(44,36,32,.06),0 12px 30px -16px rgba(44,36,32,.28);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Hanken Grotesk',system-ui,sans-serif;color:var(--ink);background-color:var(--sand);
+    background-image:radial-gradient(120% 90% at 8% -10%, rgba(31,125,119,.10), transparent 55%),
+      radial-gradient(120% 90% at 100% 0%, rgba(198,90,55,.13), transparent 50%);
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:calc(16px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom))}
+  a{color:var(--teal-deep)}
+  h2{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:21px;margin:28px 0 10px;letter-spacing:-.01em}
+
+  header.hero{position:relative;border-radius:22px;overflow:hidden;color:var(--paper);padding:24px 22px 22px;box-shadow:var(--shadow);
+    background:linear-gradient(135deg,var(--teal-deep) 0%,var(--teal) 38%,var(--terra) 86%,var(--terra-deep) 100%)}
+  header.hero::after{content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;pointer-events:none;
+    background-image:repeating-linear-gradient(115deg,#fff 0 1px,transparent 1px 22px)}
+  .hero > *{position:relative}
+  .kicker{font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+  .hero h1{font-family:'Fraunces',Georgia,serif;font-weight:900;font-size:clamp(32px,9vw,46px);line-height:1.02;margin:8px 0 14px;letter-spacing:-.02em}
+  .count{display:inline-flex;align-items:baseline;gap:8px;background:rgba(255,255,255,.16);border-radius:12px;padding:8px 12px}
+  .count b{font-family:'Fraunces',Georgia,serif;font-size:26px;line-height:1}
+  .count span{font-size:14px;opacity:.9}
+
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+  .tile{display:flex;flex-direction:column;gap:6px;padding:16px;text-decoration:none;color:var(--ink);min-height:122px;position:relative;overflow:hidden}
+  .tile.big{grid-column:1 / -1;min-height:0}
+  .tile .ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff}
+  .tile b{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:18px;line-height:1.15}
+  .tile small{color:var(--ink-soft);font-size:13px;line-height:1.35}
+  .tile:active{transform:scale(.985)}
+  .tile.big{flex-direction:row;align-items:center;gap:14px}
+  .tile.big .txt{display:flex;flex-direction:column;gap:2px}
+
+  .status{margin-top:16px;padding:14px 16px}
+  .status .row{display:flex;align-items:center;gap:10px}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--ochre);flex:none}
+  .dot.ok{background:var(--ok)} .dot.err{background:var(--terra)}
+  .status b{font-weight:700}
+  .status p{margin:6px 0 0;color:var(--ink-soft);font-size:14px}
+  .bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:10px;display:none}
+  .bar i{display:block;height:100%;width:0;background:var(--teal-map);transition:width .3s}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btn{font:600 14px/1 'Hanken Grotesk',system-ui,sans-serif;border:1px solid var(--line-strong);background:var(--paper-2);color:var(--ink);
+    border-radius:11px;padding:10px 13px;cursor:pointer}
+  .btn.primary{background:var(--teal-deep);border-color:var(--teal-deep);color:var(--paper)}
+  .btn[disabled]{opacity:.5}
+
+  .install{margin-top:16px;padding:16px;border-color:rgba(198,90,55,.35);background:#fff6ee}
+  .install h3{margin:0 0 6px;font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:18px}
+  .install ol{margin:6px 0 0;padding-left:20px}
+  .install li{margin:4px 0}
+  .install .sh{display:inline-block;vertical-align:-3px}
+
+  ul.docs,ul.flights{list-style:none;margin:0;padding:0}
+  ul.docs li + li, ul.flights li + li{border-top:1px solid var(--line)}
+  ul.docs a{display:flex;align-items:center;gap:12px;padding:12px 16px;text-decoration:none;color:var(--ink)}
+  .ki{flex:none;width:36px;height:24px;border-radius:7px;color:#fff;font:600 10px/24px 'Spline Sans Mono',monospace;text-align:center;text-transform:uppercase}
+  .lb{display:block;font-weight:600;line-height:1.3}
+  .dy{display:block;color:var(--ink-soft);font-size:12.5px}
+  .leghead{display:flex;align-items:center;gap:8px;padding:12px 16px 4px;font-family:'Spline Sans Mono',monospace;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+  .sw{width:10px;height:10px;border-radius:3px}
+  ul.flights li{display:grid;grid-template-columns:78px 1fr auto;gap:10px;padding:11px 16px;align-items:center;font-size:14px}
+  .fw{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--ink-soft)}
+  .fr{font-weight:700}
+  .fn{color:var(--ink-soft);font-size:12.5px}
+  .ft{text-align:right;font-family:'Spline Sans Mono',monospace;font-size:12px}
+  .lockrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:14px;color:var(--ink-soft)}
+  .lockrow .t{flex:1 1 180px}
+  .lockrow input{flex:1 1 160px;min-width:0;font:500 16px/1.2 'Hanken Grotesk',system-ui,sans-serif;padding:10px 12px;border:1px solid var(--line-strong);border-radius:10px;background:#fff;color:var(--ink)}
+  .lockrow .err{color:var(--terra-deep);flex-basis:100%}
+  .lockcard{margin-top:16px}
+  .lockcard .lockrow{border-bottom:0}
+  .pren{display:flex;flex-direction:column;gap:10px}
+  .pc{padding:14px 16px}
+  .pc .top{display:flex;align-items:baseline;gap:8px;justify-content:space-between}
+  .pc h3{margin:0;font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:17px;line-height:1.2}
+  .pc .who{color:var(--ink-soft);font-size:13px}
+  .pc .when{margin-top:4px;font-family:'Spline Sans Mono',monospace;font-size:12.5px;color:var(--teal-deep)}
+  .code{display:flex;align-items:center;gap:10px;margin:10px 0 6px;padding:8px 10px;background:var(--paper-2);border:1px dashed var(--line-strong);border-radius:10px}
+  .code small{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+  .code b{font-family:'Spline Sans Mono',monospace;font-size:19px;letter-spacing:.04em;flex:1;user-select:all;-webkit-user-select:all}
+  .code button{font:600 13px/1 'Hanken Grotesk',system-ui,sans-serif;border:1px solid var(--line-strong);background:#fff;border-radius:8px;padding:7px 9px;color:var(--ink)}
+  .pc ul{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--ink)}
+  .pc li{margin:3px 0}
+  .pc .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .pc .acts a{font:600 13.5px/1 'Hanken Grotesk',system-ui,sans-serif;text-decoration:none;color:var(--teal-deep);border:1px solid var(--line-strong);border-radius:9px;padding:8px 10px;background:#fff}
+  .pc.west{border-left:4px solid var(--terra)} .pc.east{border-left:4px solid var(--teal-map)}
+  .pnr{font-family:'Spline Sans Mono',monospace;font-size:11.5px;color:var(--teal-deep)}
+  footer{margin-top:28px;color:var(--ink-soft);font-size:12.5px;text-align:center}
+  @media (max-width:380px){ .tiles{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker" id="kicker">Coral Coast + Great Ocean Road</div>
+    <h1>Australia,<br>due coste</h1>
+    <div class="count" id="count"></div>
+  </header>
+
+  <div class="card install" id="install" hidden>
+    <h3>Mettilo sulla schermata Home</h3>
+    <div>Così si apre come un'app e funziona anche senza internet.</div>
+    <ol>
+      <li>Se sei dentro WhatsApp o Telegram, apri il link in <b>Safari</b> (menu <b>⋯</b> o icona della bussola → «Apri in Safari»).</li>
+      <li>Tocca <b>Condividi</b> <svg class="sh" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg> → <b>Aggiungi alla schermata Home</b>.</li>
+      <li>Apri l'icona <b>Australia</b> con internet e aspetta che qui sotto compaia <b>«Pronto offline»</b>.</li>
+    </ol>
+  </div>
+
+  <div class="card status" id="status" hidden>
+    <div class="row"><span class="dot" id="st-dot"></span><div><b id="st-title">Controllo…</b></div></div>
+    <p id="st-text"></p>
+    <div class="bar" id="st-bar"><i></i></div>
+    <p id="map-text"></p>
+    <div class="bar" id="map-bar"><i></i></div>
+    <div class="btns">
+      <button class="btn primary" id="map-btn">Scarica mappe del percorso</button>
+      <button class="btn" id="recheck">Controlla di nuovo</button>
+    </div>
+  </div>
+
+  <nav class="tiles" id="tiles">
+    <a class="card tile big" href="hub/australia.html">
+      <span class="ic" style="background:linear-gradient(135deg,var(--teal-deep),var(--terra))">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>
+      </span>
+      <span class="txt"><b>Hub del viaggio</b><small>Mappa, timeline giorno per giorno, cose da fare, voli, spese</small></span>
+    </a>
+    <a class="card tile" href="Perth_coast/piano_viaggio_west_coast.html">
+      <span class="ic" style="background:var(--terra)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h13l3-5h2v5h-2"/><path d="M3 17V9h11v8"/><circle cx="7" cy="18" r="2"/><circle cx="16" cy="18" r="2"/></svg></span>
+      <b>Coral Coast</b><small>Planner ovest · van Mighty Duo</small>
+    </a>
+    <a class="card tile" href="Adelaide_Melbourne/piano_viaggio_great_ocean_road.html">
+      <span class="ic" style="background:var(--teal-map)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c4-1 5-5 9-5s5 4 9 5"/><path d="M3 13c4-1 5-5 9-5s5 4 9 5"/></svg></span>
+      <b>Great Ocean Road</b><small>Planner est · Adelaide → Melbourne</small>
+    </a>
+    <a class="card tile big" href="valigia/valigia.html">
+      <span class="ic" style="background:var(--ochre)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M9 7V4h6v3"/></svg></span>
+      <span class="txt"><b>Valigia</b><small>Lista di cosa portare, con le spunte</small></span>
+    </a>
+  </nav>
+
+  <div class="card lockcard" id="lockcard" hidden><form class="lockrow" id="lockrow"></form></div>
+
+  <section id="pren-wrap" hidden>
+    <h2>Prenotazioni</h2>
+    <div class="pren" id="pren"></div>
+  </section>
+
+  <h2>Documenti</h2>
+  <div class="card"><ul class="docs" id="docs"></ul></div>
+
+  <h2>Voli</h2>
+  <div class="card"><ul class="flights" id="flights"></ul></div>
+
+  <footer id="foot">Le spunte e le spese restano salvate su questo telefono.</footer>
+</div>
+
+<script src="hub/hub-geo.js"></script>
+<script src="Documenti_cifrati/chiave.js"></script>
+<script src="lib/doccrypt.js"></script>
+<script>
+(function(){
+  var $ = function(s){ return document.querySelector(s); };
+  var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var ONLINE_SITE = /^https?:$/.test(location.protocol);
+  var STANDALONE = navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+  var IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  /* ---------- testata ---------- */
+  $('#kicker').textContent = HUB_CONFIG.kicker;
+  var today = new Date(); today.setHours(0,0,0,0);
+  var dep = new Date(HUB_CONFIG.departure.date + 'T00:00:00');
+  var d1 = new Date(HUB_CONFIG.roadTripStart.date + 'T00:00:00');
+  var end = new Date('2026-11-22T00:00:00');
+  var days = function(a,b){ return Math.round((a - b) / 86400000); };
+  var c = $('#count');
+  if(today < dep){ var n = days(dep, today); c.innerHTML = '<b>' + n + '</b><span>' + (n === 1 ? 'giorno' : 'giorni') + ' alla partenza</span>'; }
+  else if(today < d1){ c.innerHTML = '<b>' + days(d1, today) + '</b><span>giorni al road trip</span>'; }
+  else if(today <= end){ c.innerHTML = '<b>Giorno ' + (days(today, d1) + 1) + '</b><span>del road trip</span>'; }
+  else { c.innerHTML = '<b>fatto</b><span>bentornati</span>'; }
+
+  /* ---------- documenti ---------- */
+  var kinds = {volo:'#155f5a', noleggio:'#a23f22', tour:'#d76b94', alloggio:'#9a7836'};
+  var docHref = function(file){
+    var rel = 'Documenti/' + encodeURIComponent(file);
+    /* sul PC (doppio clic) apre direttamente il PDF originale in Documenti/ */
+    return ONLINE_SITE ? 'documento.html?f=' + encodeURIComponent(rel) : rel;
+  };
+  var html = '';
+  HUB_CONFIG.legs.forEach(function(leg){
+    var items = HUB_DOCS.filter(function(x){ return x.leg === leg.key; });
+    if(!items.length) return;
+    html += '<li class="leghead"><span class="sw" style="background:' + leg.color + '"></span>' + esc(leg.name) + '</li>';
+    html += items.map(function(x){
+      return '<li><a href="' + docHref(x.file) + '"><span class="ki" style="background:' + (kinds[x.kind] || '#5e5147') + '">' + esc(x.kind.slice(0,3)) + '</span>' +
+        '<span><span class="lb">' + esc(x.label) + '</span><span class="dy">' + esc(x.file) + '</span></span></a></li>';
+    }).join('');
+  });
+  $('#docs').innerHTML = html;
+
+  /* ---------- voli ---------- */
+  function renderFlights(list){
+    $('#flights').innerHTML = list.map(function(f){
+      return '<li><span class="fw">' + esc(f.when) + '</span><span><span class="fr">' + esc(f.from) + ' → ' + esc(f.to) + '</span> <span class="fn">' + esc(f.code) + '</span>' +
+        (f.pnr ? ' <span class="pnr">· prenotazione ' + esc(f.pnr) + '</span>' : '') + '<br><span class="fn">' + esc(f.note) + '</span></span>' +
+        '<span class="ft">' + esc(f.dep) + '<br>' + esc(f.arr) + '</span></li>';
+    }).join('');
+  }
+  renderFlights(HUB_FLIGHTS);
+
+  /* ---------- dati privati (cifrati): prenotazioni e voli completi ---------- */
+  async function loadPrivate(){
+    if(!ONLINE_SITE || !window.AusDocs || !AusDocs.isUnlocked()){ $('#pren-wrap').hidden = true; renderFlights(HUB_FLIGHTS); return; }
+    var data;
+    try{
+      var r = await fetch('Documenti_cifrati/privato.json.enc'); if(!r.ok) throw new Error(r.status);
+      data = JSON.parse(new TextDecoder().decode(await AusDocs.decrypt(await r.arrayBuffer())));
+    }catch(e){ console.warn('dati privati non disponibili', e); return; }
+    if(data.voli) renderFlights(data.voli);
+    var legs = {}; HUB_CONFIG.legs.forEach(function(l){ legs[l.key] = l; });
+    $('#pren').innerHTML = (data.prenotazioni || []).map(function(p, i){
+      var tel = p.tel ? '<a href="tel:' + esc(p.tel.replace(/[^+0-9]/g, '')) + '">☎ ' + esc(p.tel) + '</a>' : '';
+      var mail = p.contatto ? '<a href="mailto:' + esc(p.contatto) + '">✉ ' + esc(p.contatto) + '</a>' : '';
+      var doc = p.doc ? '<a href="' + docHref(p.doc) + '">📄 Documento</a>' : '';
+      return '<div class="card pc ' + esc(p.leg || '') + '"><div class="top"><h3>' + esc(p.titolo) + '</h3></div>' +
+        '<div class="who">' + esc(p.chi || '') + '</div><div class="when">' + esc(p.quando || '') + '</div>' +
+        (p.codice ? '<div class="code"><span><small>' + esc(p.codiceLabel || 'Codice') + '</small><br><b>' + esc(p.codice) + '</b></span><button type="button" data-copy="' + esc(p.codice) + '">Copia</button></div>' : '') +
+        (p.righe && p.righe.length ? '<ul>' + p.righe.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ul>' : '') +
+        '<div class="acts">' + doc + tel + mail + '</div></div>';
+    }).join('');
+    $('#pren').querySelectorAll('[data-copy]').forEach(function(b){
+      b.onclick = async function(){
+        try{ await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'Copiato ✓'; }
+        catch(e){ b.textContent = 'Tieni premuto sul codice'; }
+        setTimeout(function(){ b.textContent = 'Copia'; }, 1800);
+      };
+    });
+    $('#pren-wrap').hidden = !(data.prenotazioni && data.prenotazioni.length);
+  }
+
+  /* ---------- password dei documenti ---------- */
+  function lockUI(err){
+    var f = $('#lockrow'); if(!ONLINE_SITE || !window.AusDocs) return;
+    $('#lockcard').hidden = false;
+    loadPrivate();
+    if(AusDocs.isUnlocked()){
+      f.innerHTML = '<span class="t">🔓 Prenotazioni e documenti sbloccati su questo telefono.</span><button type="button" class="btn" id="relock">Blocca</button>';
+      $('#relock').onclick = function(){ AusDocs.lock(); lockUI(); };
+      f.onsubmit = null; return;
+    }
+    f.innerHTML = '<span class="t">🔒 Codici di prenotazione e documenti sono cifrati: inserisci la password (una volta sola).</span>' +
+      '<input type="password" id="docpw" autocomplete="current-password" placeholder="password" required>' +
+      '<button class="btn primary" type="submit">Sblocca</button>' + (err ? '<span class="err">' + err + '</span>' : '');
+    f.onsubmit = async function(e){
+      e.preventDefault(); var b = f.querySelector('button'); b.disabled = true; b.textContent = '…';
+      var ok = false; try{ ok = await AusDocs.unlock($('#docpw').value); }catch(x){ console.error(x); }
+      lockUI(ok ? null : 'Password sbagliata.');
+    };
+  }
+  lockUI();
+
+  if(!ONLINE_SITE){ $('#foot').textContent = 'Aperto dalla cartella del PC: la modalità offline funziona solo dal sito.'; return; }
+
+  /* ---------- istruzioni iPhone ---------- */
+  if(IOS && !STANDALONE) $('#install').hidden = false;
+  if(!('serviceWorker' in navigator) || !window.caches) return;
+  $('#status').hidden = false;
+
+  /* ---------- stato offline ---------- */
+  var bar = function(id, frac){ var b = $(id); b.style.display = frac == null ? 'none' : 'block'; if(frac != null) b.firstElementChild.style.width = Math.round(frac * 100) + '%'; };
+  var mb = function(bytes){ return (bytes / 1048576).toLocaleString('it-IT', {maximumFractionDigits: 1}) + ' MB'; };
+  var timer = null;
+
+  async function checkFiles(){
+    var manifest = null;
+    try{ manifest = await (await fetch('precache.json', {cache: 'no-store'})).json(); }catch(e){}
+    var keys = (await caches.keys()).filter(function(k){ return k.indexOf('aus-pre-') === 0; });
+    if(!manifest && keys.length){ var r = await caches.match('precache.json'); if(r) manifest = await r.json(); }
+    if(!manifest){ $('#st-title').textContent = 'Stato non disponibile'; return false; }
+    var cacheName = 'aus-pre-' + manifest.version;
+    var have = 0;
+    if(keys.indexOf(cacheName) >= 0){
+      var cache = await caches.open(cacheName);
+      var present = new Set((await cache.keys()).map(function(r){ return r.url; }));
+      manifest.files.forEach(function(f){ if(present.has(new URL(f.url, location.href).href)) have++; });
+    }
+    var tot = manifest.files.length, dot = $('#st-dot');
+    if(have === tot){
+      dot.className = 'dot ok';
+      $('#st-title').textContent = 'Pronto offline';
+      $('#st-text').textContent = tot + ' file salvati sul telefono (' + mb(manifest.bytes) + '): pagine, dati, documenti cifrati. Versione ' + manifest.version + '.';
+      bar('#st-bar', null); return true;
+    }
+    dot.className = 'dot';
+    $('#st-title').textContent = have ? 'Sto salvando per l\'offline…' : (navigator.onLine ? 'Preparazione offline…' : 'Non ancora salvato');
+    $('#st-text').textContent = have + ' / ' + tot + ' file · resta su questa pagina con internet finché non vedi «Pronto offline».';
+    bar('#st-bar', have / tot);
+    return false;
+  }
+  function poll(){ clearInterval(timer); var n = 0; timer = setInterval(async function(){ if(await checkFiles() || ++n > 180) clearInterval(timer); }, 1500); checkFiles(); }
+  poll();
+  $('#recheck').onclick = async function(){
+    var reg = await navigator.serviceWorker.getRegistration();
+    if(reg){ try{ await reg.update(); }catch(e){} }
+    poll(); countTiles();
+  };
+  navigator.serviceWorker.addEventListener('controllerchange', poll);
+
+  /* ---------- mappe offline (tessere Esri lungo il percorso) ---------- */
+  var TILE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/';
+  function tilePlan(){
+    var pts = [];
+    Object.keys(HUB_GEO).forEach(function(k){ var v = HUB_GEO[k]; var ll = Array.isArray(v) ? v : (v && v.ll); if(ll) pts.push(ll); });
+    Object.keys(HUB_VIA || {}).forEach(function(d){ Object.keys(HUB_VIA[d]).forEach(function(i){ HUB_VIA[d][i].forEach(function(ll){ pts.push(ll); }); }); });
+    var lon2x = function(lon,z){ return Math.floor((lon + 180) / 360 * Math.pow(2, z)); };
+    var lat2y = function(lat,z){ var r = lat * Math.PI / 180; return Math.floor((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * Math.pow(2, z)); };
+    var set = new Set(), add = function(z,x,y){ set.add(z + '/' + y + '/' + x); };
+    var box = function(z,w,s,e,n){ for(var x = lon2x(w,z); x <= lon2x(e,z); x++) for(var y = lat2y(n,z); y <= lat2y(s,z); y++) add(z,x,y); };
+    for(var z = 3; z <= 6; z++) box(z, 112, -44, 154, -9);
+    [pts.filter(function(p){ return p[1] < 130; }), pts.filter(function(p){ return p[1] >= 130; })].forEach(function(g){
+      if(!g.length) return;
+      var la = g.map(function(p){ return p[0]; }), lo = g.map(function(p){ return p[1]; });
+      for(var z = 7; z <= 8; z++) box(z, Math.min.apply(0, lo) - .4, Math.min.apply(0, la) - .4, Math.max.apply(0, lo) + .4, Math.max.apply(0, la) + .4);
+    });
+    var R = {9:0, 10:0, 11:1, 12:1, 13:1};
+    pts.forEach(function(p){ for(var z = 9; z <= 13; z++){ var cx = lon2x(p[1], z), cy = lat2y(p[0], z), r = R[z];
+      for(var dx = -r; dx <= r; dx++) for(var dy = -r; dy <= r; dy++) add(z, cx + dx, cy + dy); } });
+    return Array.from(set).map(function(t){ return TILE + t; });
+  }
+  var PLAN = tilePlan();
+  var running = false, stop = false;
+
+  async function countTiles(){
+    var cache = await caches.open('aus-tiles-v1');
+    var have = new Set((await cache.keys()).map(function(r){ return r.url; }));
+    var inPlan = PLAN.filter(function(u){ return have.has(u); }).length;
+    if(!running){
+      $('#map-text').innerHTML = '<b>Mappa zoomabile:</b> ' + (inPlan >= PLAN.length
+        ? 'percorso salvato (' + PLAN.length + ' tessere, tutte le tappe fino a zoom città).'
+        : inPlan + ' / ' + PLAN.length + ' tessere del percorso salvate (circa 40 MB in tutto). Le zone che guardi con internet si salvano da sole.');
+      $('#map-btn').textContent = inPlan >= PLAN.length ? 'Mappe salvate ✓' : (inPlan ? 'Completa mappe del percorso' : 'Scarica mappe del percorso');
+      $('#map-btn').disabled = inPlan >= PLAN.length;
+    }
+    return have;
+  }
+  countTiles();
+
+  $('#map-btn').onclick = async function(){
+    if(running){ stop = true; return; }
+    if(!navigator.onLine){ window.pwaToast && pwaToast('Serve internet (meglio il Wi-Fi) per scaricare le mappe.', null, null, 3500); return; }
+    running = true; stop = false; this.textContent = 'Interrompi';
+    var cache = await caches.open('aus-tiles-v1');
+    var have = new Set((await cache.keys()).map(function(r){ return r.url; }));
+    var todo = PLAN.filter(function(u){ return !have.has(u); });
+    var done = 0, fail = 0, mode = 'cors';
+    async function one(u){
+      for(var attempt = 0; attempt < 2; attempt++){
+        try{
+          var r = await fetch(u, {mode: mode});
+          if(r.ok || r.type === 'opaque'){ await cache.put(u, r); return; }
+        }catch(e){ if(mode === 'cors') mode = 'no-cors'; }
+      }
+      fail++;
+    }
+    var i = 0;
+    async function worker(){ while(i < todo.length && !stop){ var u = todo[i++]; await one(u); done++;
+      if(done % 10 === 0 || done === todo.length){ $('#map-text').innerHTML = '<b>Mappa:</b> scarico… ' + done + ' / ' + todo.length; bar('#map-bar', done / todo.length); } } }
+    await Promise.all([worker(), worker(), worker(), worker()]);
+    running = false; bar('#map-bar', null);
+    await countTiles();
+    if(fail) window.pwaToast && pwaToast(fail + ' tessere non scaricate: riprova più tardi.', null, null, 4000);
+  };
+})();
+</script>
+<script src="pwa.js" defer></script>
+</body>
+</html>
