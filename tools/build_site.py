@@ -26,6 +26,7 @@ INCLUDE = [
     ("Perth_coast", {".html", ".js"}),
     ("Adelaide_Melbourne", {".html", ".js"}),
     ("valigia", {".html", ".js"}),
+    ("calendario", {".html", ".js"}),
     ("Documenti_cifrati", {".enc", ".js"}),   # i PDF originali NON vengono pubblicati
 ]
 
