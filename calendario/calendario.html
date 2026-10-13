@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cronoprogramma · Australia</title>
+<meta name="description" content="Il viaggio in Australia come calendario: ogni ora colorata per attivita'.">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#155f5a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="icon" href="../icons/icon-192.png">
+<style>
+  :root{
+    --sand:#f3e9da;--paper:#fdf8f0;--paper-2:#fbf3e7;--ink:#2c2420;--ink-soft:#5e5147;
+    --terra:#c65a37;--teal:#1f7d77;--teal-deep:#155f5a;--now:#d93a2b;
+    --line:rgba(44,36,32,.11);--line-strong:rgba(44,36,32,.22);
+    --shadow:0 1px 2px rgba(44,36,32,.06),0 12px 30px -16px rgba(44,36,32,.28);
+    --hour:44px;--hcol:46px;--dcol:minmax(124px,1fr);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:'Hanken Grotesk',system-ui,sans-serif;color:var(--ink);background-color:var(--sand);
+    background-image:radial-gradient(120% 90% at 8% -10%, rgba(31,125,119,.10), transparent 55%),
+      radial-gradient(120% 90% at 100% 0%, rgba(198,90,55,.13), transparent 50%);
+    line-height:1.45;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1200px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 16px calc(80px + env(safe-area-inset-bottom))}
+  button{font:inherit;color:inherit}
+  .mono{font-family:'Spline Sans Mono',monospace}
+
+  /* ---------- testata ---------- */
+  header.hero{position:relative;border-radius:20px;overflow:hidden;color:var(--paper);padding:18px 20px;box-shadow:var(--shadow);
+    background:linear-gradient(135deg,var(--teal-deep) 0%,var(--teal) 38%,var(--terra) 86%,#a23f22 100%);
+    display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 20px}
+  header.hero::after{content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;pointer-events:none;
+    background-image:repeating-linear-gradient(115deg,#fff 0 1px,transparent 1px 22px)}
+  .hero > *{position:relative}
+  .kicker{font-family:'Spline Sans Mono',monospace;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+  .hero h1{font-family:'Fraunces',Georgia,serif;font-weight:900;font-size:clamp(28px,7vw,40px);line-height:1;margin:6px 0 0;letter-spacing:-.02em}
+  .hero a.back{white-space:nowrap;flex:none;color:var(--paper);font-size:13.5px;font-weight:600;text-decoration:none;background:rgba(255,255,255,.16);border-radius:10px;padding:7px 11px}
+
+  /* ---------- barra comandi ---------- */
+  .bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 0 10px}
+  .seg{display:inline-flex;background:var(--paper);border:1px solid var(--line-strong);border-radius:12px;padding:3px}
+  .seg button{border:0;background:none;padding:7px 12px;border-radius:9px;font-weight:600;font-size:14px;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:var(--teal-deep);color:var(--paper)}
+  .nav{display:inline-flex;align-items:center;gap:6px;margin-left:auto}
+  .nav .lbl{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:17px;min-width:150px;text-align:center}
+  .ib{width:36px;height:36px;border-radius:11px;border:1px solid var(--line-strong);background:var(--paper);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+  .ib[disabled]{opacity:.35;cursor:default}
+  .btn{border:1px solid var(--line-strong);background:var(--paper);border-radius:11px;padding:8px 12px;font-weight:600;font-size:14px;cursor:pointer}
+
+  /* ---------- legenda ---------- */
+  .legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-strong);background:var(--paper);border-radius:999px;
+    padding:5px 11px 5px 7px;font-size:13px;font-weight:600;cursor:pointer;user-select:none;-webkit-user-select:none;transition:opacity .15s}
+  .chip i{width:14px;height:14px;border-radius:5px;display:block}
+  .chip.off{opacity:.38}
+  .chip.off i{background:transparent !important;border:2px solid var(--line-strong)}
+  .chip .h{font-family:'Spline Sans Mono',monospace;font-weight:500;font-size:11px;color:var(--ink-soft)}
+  .keys{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--ink-soft);margin:-4px 0 12px}
+  .keys span{display:inline-flex;align-items:center;gap:6px}
+  .keys b{display:inline-block;width:22px;height:13px;border-radius:4px}
+  .k-fix{background:#3d8b4f}
+  .k-est{background:rgba(61,139,79,.24);border-left:3px solid #3d8b4f}
+  .k-opt{background:rgba(61,139,79,.10);border:1.5px dashed rgba(61,139,79,.8)}
+
+  /* ---------- vista settimana ---------- */
+  .cal{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:auto;
+    height:calc(100vh - 230px);height:calc(100dvh - 230px);min-height:460px;position:relative;
+    scroll-snap-type:x proximity;scroll-padding-left:var(--hcol);overscroll-behavior:contain}
+  .grid{display:grid;grid-template-columns:var(--hcol) repeat(7,var(--dcol));min-width:fit-content;position:relative}
+  .corner{position:sticky;left:0;top:0;z-index:6;background:var(--paper);border-bottom:1px solid var(--line-strong)}
+  .dh{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line-strong);border-left:1px solid var(--line);
+    padding:8px 8px 6px;scroll-snap-align:start;min-width:0;cursor:pointer}
+  .dh .stripe{position:absolute;left:0;right:0;top:0;height:4px}
+  .dh .wd{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+  .dh .dn{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:24px;line-height:1;display:inline-block;margin-top:2px}
+  .dh .mo{font-size:12px;color:var(--ink-soft);margin-left:3px}
+  .dh .tt{font-weight:700;font-size:12.5px;line-height:1.2;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dh .tz{font-family:'Spline Sans Mono',monospace;font-size:10px;color:var(--ink-soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dh.today .dn{background:var(--now);color:#fff;border-radius:9px;padding:2px 6px}
+  .dh.empty,.ad.empty,.col.empty{background:repeating-linear-gradient(135deg,rgba(44,36,32,.035) 0 6px,transparent 6px 12px)}
+  .dh.empty .tt{color:var(--ink-soft);font-weight:500}
+  .adh{position:sticky;left:0;z-index:4;background:var(--paper);border-bottom:1px solid var(--line-strong);
+    font-family:'Spline Sans Mono',monospace;font-size:9.5px;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1}
+  .ad{border-bottom:1px solid var(--line-strong);border-left:1px solid var(--line);padding:5px 6px;display:flex;flex-direction:column;gap:4px;min-width:0;background:var(--paper-2)}
+  .ad .pill{font-size:11.5px;font-weight:700;border-radius:7px;padding:3px 7px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ad .night{font-size:11.5px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hours{position:sticky;left:0;z-index:3;background:var(--paper);border-right:1px solid var(--line)}
+  .hours div{height:var(--hour);position:relative}
+  .hours span{position:absolute;top:-7px;right:6px;font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:var(--ink-soft)}
+  .hours div:first-child span{display:none}
+  .col{position:relative;border-left:1px solid var(--line);
+    background-image:linear-gradient(to bottom,var(--line) 1px,transparent 1px),linear-gradient(to bottom,rgba(44,36,32,.045) 1px,transparent 1px);
+    background-size:100% var(--hour),100% calc(var(--hour) / 2);background-position:0 0,0 0}
+  .col.today{background-color:rgba(217,58,43,.035)}
+  .ev{position:absolute;left:3px;right:3px;border-radius:7px;padding:3px 6px 2px;overflow:hidden;cursor:pointer;
+    font-size:11.5px;line-height:1.2;border:0;text-align:left;display:block;transition:opacity .15s,transform .1s}
+  .ev:active{transform:scale(.98)}
+  .ev b{display:block;font-weight:700;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3}
+  .ev small{display:block;font-family:'Spline Sans Mono',monospace;font-size:9.5px;opacity:.8;margin-top:1px;white-space:nowrap}
+  .ev.tiny{padding-top:1px}
+  .ev.tiny b{-webkit-line-clamp:1;font-size:10.5px}
+  .ev.tiny small{display:none}
+  .ev.fix{color:#fff;box-shadow:0 1px 0 rgba(0,0,0,.08)}
+  .ev.fix::after{content:"";position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:#fff;opacity:.9}
+  .ev.est{color:var(--ink)}
+  .ev.opt{color:var(--ink);border-style:dashed;border-width:1.5px}
+  .ev.dim{opacity:.1;pointer-events:none}
+  .ev{z-index:1}
+  .nowline{position:absolute;left:-1px;right:0;height:2px;background:var(--now);z-index:3;pointer-events:none;box-shadow:0 0 0 1px rgba(255,255,255,.7)}
+  .nowline::before{content:"";position:absolute;left:-4px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--now)}
+
+  /* ---------- vista mese ---------- */
+  .month{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:12px}
+  .mgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+  .mwd{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);text-align:center;padding:2px 0 4px}
+  .mc{border:1px solid var(--line);border-radius:12px;background:var(--paper-2);min-height:150px;display:flex;flex-direction:column;overflow:hidden;cursor:pointer;position:relative;text-align:left;padding:0}
+  .mc.empty{background:repeating-linear-gradient(135deg,rgba(44,36,32,.035) 0 6px,transparent 6px 12px);cursor:default;border-style:dashed}
+  .mc .top{display:flex;align-items:baseline;gap:4px;padding:5px 7px 3px;border-top:4px solid transparent}
+  .mc .n{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:17px;line-height:1}
+  .mc .m{font-size:11px;color:var(--ink-soft)}
+  .mc.today .n{background:var(--now);color:#fff;border-radius:7px;padding:1px 5px}
+  .mc .t{font-size:11.5px;font-weight:700;line-height:1.2;padding:0 7px 5px;min-height:2.4em;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+  .ribbon{position:relative;flex:1;margin:0 7px 7px;border-radius:6px;background:rgba(44,36,32,.05);min-height:70px;overflow:hidden}
+  .ribbon i{position:absolute;left:0;right:0;display:block}
+  .ribbon i.opt{left:30%;}
+  .ribbon .tick{position:absolute;left:0;right:0;height:1px;background:rgba(44,36,32,.08)}
+  .mc .ad1{font-size:10.5px;font-weight:700;color:#fff;margin:0 7px 5px;border-radius:5px;padding:2px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mhint{font-size:12.5px;color:var(--ink-soft);margin:10px 2px 0}
+
+  /* ---------- statistiche ---------- */
+  .stats{margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:16px}
+  .stats h2{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:20px;margin:0 0 4px}
+  .stats p{margin:0 0 12px;color:var(--ink-soft);font-size:13.5px}
+  .stack{display:flex;height:16px;border-radius:8px;overflow:hidden;margin-bottom:14px}
+  .stack i{display:block;height:100%}
+  .srow{display:grid;grid-template-columns:150px 1fr 62px;gap:10px;align-items:center;font-size:13.5px;margin:6px 0}
+  .srow .bt{height:10px;border-radius:5px;background:rgba(44,36,32,.06);overflow:hidden}
+  .srow .bt i{display:block;height:100%;border-radius:5px}
+  .srow .v{font-family:'Spline Sans Mono',monospace;font-size:12px;text-align:right}
+  .srow .nm{display:flex;align-items:center;gap:7px;font-weight:600}
+  .srow .nm i{width:11px;height:11px;border-radius:4px;flex:none}
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+  .fact{background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+  .fact b{font-family:'Fraunces',Georgia,serif;font-size:24px;line-height:1;display:block}
+  .fact span{font-size:12.5px;color:var(--ink-soft)}
+
+  /* ---------- dettaglio ---------- */
+  .sheet-bg{position:fixed;inset:0;background:rgba(44,36,32,.35);z-index:50;display:none;align-items:flex-end;justify-content:center}
+  .sheet-bg.open{display:flex}
+  .sheet{background:var(--paper);width:100%;max-width:520px;border-radius:20px 20px 0 0;padding:0 0 calc(18px + env(safe-area-inset-bottom));
+    box-shadow:0 -10px 40px -10px rgba(0,0,0,.35);animation:up .18s ease-out;max-height:80vh;overflow:auto}
+  @media (min-width:700px){ .sheet-bg{align-items:center} .sheet{border-radius:20px;padding-bottom:18px} }
+  @keyframes up{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+  .sheet .band{height:8px;border-radius:20px 20px 0 0}
+  .sheet .in{padding:14px 18px 0}
+  .sheet .cat{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;letter-spacing:.02em}
+  .sheet .cat i{width:12px;height:12px;border-radius:4px}
+  .sheet h3{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:23px;line-height:1.15;margin:6px 0 6px}
+  .sheet .when{font-family:'Spline Sans Mono',monospace;font-size:13px;color:var(--teal-deep)}
+  .sheet .st{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;border-radius:999px;padding:3px 9px;background:var(--paper-2);border:1px solid var(--line-strong)}
+  .sheet .note{margin:12px 0 0;font-size:15px}
+  .sheet .meta{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft);display:flex;flex-direction:column;gap:3px}
+  .sheet .close{float:right;margin-top:-2px}
+  .sheet .acts{display:flex;gap:8px;margin-top:14px}
+  .sheet .acts a{font-weight:600;font-size:13.5px;text-decoration:none;color:var(--teal-deep);border:1px solid var(--line-strong);border-radius:9px;padding:8px 10px;background:#fff}
+
+  [hidden]{display:none !important}
+  @media (max-width:640px){
+    :root{--hour:40px;--hcol:40px;--dcol:minmax(118px,1fr)}
+    header.hero{padding:14px 16px;flex-wrap:nowrap;align-items:center;border-radius:16px}
+    .hero h1{font-size:26px}
+    .kicker{font-size:10.5px}
+    .bar{margin:10px 0 8px;gap:8px}
+    .seg button{padding:6px 10px}
+    .btn{padding:7px 10px}
+    .nav{margin-left:0;width:100%;justify-content:space-between}
+    .legend{flex-wrap:nowrap;overflow-x:auto;margin:0 -16px 8px;padding:0 16px 2px;scrollbar-width:none}
+    .legend::-webkit-scrollbar{display:none}
+    .chip{flex:none;font-size:12.5px;padding:4px 10px 4px 6px}
+    .keys{gap:4px 12px;font-size:11.5px;margin:0 0 10px}
+    .nav .lbl{min-width:0;flex:1}
+    .cal{height:calc(100dvh - 200px);min-height:420px}
+    .mgrid{gap:3px}
+    .month{padding:8px}
+    .mc{min-height:118px;border-radius:9px}
+    .mc .t{display:none}
+    .mc .top{padding:4px 4px 3px}
+    .mc .m{display:none}
+    .mc .n{font-size:14px}
+    .ribbon{margin:0 3px 3px;min-height:84px}
+    .mc .ad1{display:none}
+    .srow{grid-template-columns:118px 1fr 52px;gap:8px;font-size:12.5px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="kicker">Australia · 22 ott – 22 nov 2026</div>
+      <h1>Cronoprogramma</h1>
+    </div>
+    <a class="back" href="../index.html">← Home</a>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Vista">
+      <button type="button" data-view="week" aria-pressed="true">Settimana</button>
+      <button type="button" data-view="month" aria-pressed="false">Mese</button>
+    </div>
+    <button type="button" class="btn" id="today">Oggi</button>
+    <div class="nav" id="nav">
+      <button type="button" class="ib" id="prev" aria-label="Settimana precedente"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <span class="lbl" id="lbl"></span>
+      <button type="button" class="ib" id="next" aria-label="Settimana successiva"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+
+  <div class="legend" id="legend"></div>
+  <div class="keys">
+    <span><b class="k-fix"></b>orario fisso / prenotato</span>
+    <span><b class="k-est"></b>orario stimato</span>
+    <span><b class="k-opt"></b>facoltativo</span>
+    <span class="mono" style="font-size:11.5px">orari sempre in ora locale</span>
+  </div>
+
+  <section id="v-week">
+    <div class="cal" id="cal"><div class="grid" id="grid"></div></div>
+  </section>
+
+  <section id="v-month" hidden>
+    <div class="month"><div class="mgrid" id="mgrid"></div>
+      <p class="mhint">Ogni casella e' la giornata dalle 5:00 (in alto) a mezzanotte (in basso). Tocca un giorno per aprire la sua settimana.</p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </section>
+</div>
+
+<div class="sheet-bg" id="sheet-bg"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+
+<script src="calendario-data.js"></script>
+<script>
+(function(){
+  var $ = function(s){ return document.querySelector(s); };
+  var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var H0 = 5, H1 = 24;                         /* ore visibili */
+  var WD = ['lun','mar','mer','gio','ven','sab','dom'];
+  var WDL = ['lunedi','martedi','mercoledi','giovedi','venerdi','sabato','domenica'];
+  var MO = ['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+  var store = { get:function(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+                set:function(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
+
+  /* ---------- date ---------- */
+  var pd = function(s){ var p = s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); };
+  var key = function(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
+  var addD = function(d,n){ var x = new Date(d); x.setDate(x.getDate()+n); return x; };
+  var monday = function(d){ var x = new Date(d); x.setHours(0,0,0,0); return addD(x, -((x.getDay()+6)%7)); };
+  var mins = function(t){ var p = t.split(':'); return (+p[0])*60 + (+p[1]); };
+  var fmtDur = function(m){ var h = Math.floor(m/60), r = m%60; return (h ? h + ' h' : '') + (r ? (h ? ' ' : '') + r + ' min' : ''); };
+  var rgba = function(hex,a){ var n = parseInt(hex.slice(1),16); return 'rgba(' + (n>>16) + ',' + ((n>>8)&255) + ',' + (n&255) + ',' + a + ')'; };
+
+  var byDate = {};
+  CAL_DAYS.forEach(function(d){
+    d.ev = (d.ev || []).map(function(e){ return {s:mins(e[0]), e:mins(e[1]), t0:e[0], t1:e[1], cat:e[2], title:e[3], flag:e[4]||'', note:e[5]||''}; });
+    byDate[d.date] = d;
+  });
+  var first = pd(CAL_DAYS[0].date), last = pd(CAL_DAYS[CAL_DAYS.length-1].date);
+  var weeks = []; for(var w = monday(first); w <= last; w = addD(w,7)) weeks.push(w);
+  var today = new Date(); var todayKey = key(today);
+
+  /* ---------- stato ---------- */
+  var off = {}; try{ off = JSON.parse(store.get('cal_off') || '{}') || {}; }catch(e){ off = {}; }
+  var view = store.get('cal_view') === 'month' ? 'month' : 'week';
+  var wi = 0;
+  var tw = monday(today); weeks.forEach(function(w,i){ if(+w === +tw) wi = i; });
+  var focusDay = null;
+
+  /* ---------- legenda con le ore ---------- */
+  var totals = {}; Object.keys(CAL_CATS).forEach(function(k){ totals[k] = 0; });
+  /* ore contate solo nel road trip (30 ott - 20 nov), senza voli lunghi e scali */
+  CAL_DAYS.forEach(function(d){ if(d.leg !== 'west' && d.leg !== 'east') return; d.ev.forEach(function(e){ if(totals[e.cat] != null) totals[e.cat] += e.e - e.s; }); });
+  function renderLegend(){
+    $('#legend').innerHTML = Object.keys(CAL_CATS).map(function(k){
+      var c = CAL_CATS[k];
+      return '<span class="chip' + (off[k] ? ' off' : '') + '" data-k="' + k + '" role="button" tabindex="0" aria-pressed="' + !off[k] + '">' +
+        '<i style="background:' + c.color + '"></i>' + esc(c.label) + ' <span class="h">' + Math.round(totals[k]/60) + 'h</span></span>';
+    }).join('');
+  }
+  $('#legend').addEventListener('click', function(e){
+    var c = e.target.closest('.chip'); if(!c) return;
+    var k = c.dataset.k;
+    /* doppio tocco veloce = "solo questa" */
+    var now = Date.now();
+    if(c._t && now - c._t < 350){ Object.keys(CAL_CATS).forEach(function(x){ off[x] = x !== k; }); }
+    else off[k] = !off[k];
+    c._t = now;
+    store.set('cal_off', JSON.stringify(off));
+    renderLegend(); applyFilter();
+  });
+  function applyFilter(){
+    document.querySelectorAll('.ev').forEach(function(el){ el.classList.toggle('dim', !!off[el.dataset.cat]); });
+    document.querySelectorAll('.ribbon i').forEach(function(el){ el.style.opacity = off[el.dataset.cat] ? .08 : ''; });
+  }
+
+  /* ---------- corsie per eventi sovrapposti ---------- */
+  function lanes(evs){
+    var list = evs.slice().sort(function(a,b){ return a.s - b.s || b.e - a.e; });
+    var out = [], cluster = [], end = -1;
+    function flush(){
+      var cols = [];
+      cluster.forEach(function(e){
+        var c = 0; while(cols[c] != null && cols[c] > e.s) c++;
+        cols[c] = e.e; e._lane = c;
+      });
+      cluster.forEach(function(e){ e._n = cols.length; out.push(e); });
+      cluster = [];
+    }
+    list.forEach(function(e){ if(e.s >= end && cluster.length) flush(); cluster.push(e); end = Math.max(end, e.e); });
+    if(cluster.length) flush();
+    return out;
+  }
+
+  function evStyle(e){
+    var c = (CAL_CATS[e.cat] || {color:'#888'}).color;
+    if(e.flag === 'f') return {cls:'fix', css:'background:' + c};
+    if(e.flag === 'o') return {cls:'opt', css:'background:' + rgba(c,.11) + ';border-color:' + rgba(c,.85)};
+    return {cls:'est', css:'background:' + rgba(c,.24) + ';border-left:3px solid ' + c};
+  }
+
+  /* ---------- vista settimana ---------- */
+  function renderWeek(){
+    var w = weeks[wi], days = [];
+    for(var i = 0; i < 7; i++) days.push(addD(w,i));
+    var a = days[0], b = days[6];
+    $('#lbl').textContent = a.getDate() + (a.getMonth() !== b.getMonth() ? ' ' + MO[a.getMonth()] : '') + ' – ' + b.getDate() + ' ' + MO[b.getMonth()];
+    $('#prev').disabled = wi === 0; $('#next').disabled = wi === weeks.length - 1;
+    var hpx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hour')) || 44;
+
+    var h = '<div class="corner"></div>';
+    days.forEach(function(d){
+      var k = key(d), x = byDate[k], leg = x ? CAL_LEGS[x.leg] : null;
+      h += '<div class="dh' + (x ? '' : ' empty') + (k === todayKey ? ' today' : '') + '" data-day="' + k + '">' +
+        (leg ? '<span class="stripe" style="background:' + leg.color + '"></span>' : '') +
+        '<div class="wd">' + WD[(d.getDay()+6)%7] + '</div><span class="dn">' + d.getDate() + '</span><span class="mo">' + MO[d.getMonth()] + '</span>' +
+        '<div class="tt">' + (x ? esc(x.title) : 'fuori viaggio') + '</div>' + (x ? '<div class="tz">' + esc(x.tz || '') + '</div>' : '') + '</div>';
+    });
+    h += '<div class="adh">notte</div>';
+    days.forEach(function(d){
+      var x = byDate[key(d)];
+      h += '<div class="ad' + (x ? '' : ' empty') + '">' +
+        (x && x.allday ? '<span class="pill" style="background:' + CAL_LEGS.perth.color + '">' + esc(x.allday) + '</span>' : '') +
+        (x && x.night ? '<span class="night">☾ ' + esc(x.night) + '</span>' : '') + '</div>';
+    });
+    h += '<div class="hours">';
+    for(var hh = H0; hh < H1; hh++) h += '<div><span>' + hh + ':00</span></div>';
+    h += '</div>';
+    days.forEach(function(d){
+      var k = key(d), x = byDate[k];
+      h += '<div class="col' + (x ? '' : ' empty') + (k === todayKey ? ' today' : '') + '" data-day="' + k + '" style="height:' + ((H1-H0)*hpx) + 'px">';
+      if(x) lanes(x.ev).forEach(function(e, idx){
+        var s = Math.max(e.s, H0*60), en = Math.min(e.e, H1*60); if(en <= s) return;
+        var top = (s - H0*60) / 60 * hpx, ht = Math.max((en - s) / 60 * hpx - 2, 13);
+        var st = evStyle(e), wpc = 100 / e._n;
+        h += '<button type="button" class="ev ' + st.cls + (ht < 30 ? ' tiny' : '') + '" data-day="' + k + '" data-i="' + x.ev.indexOf(e) + '" data-cat="' + e.cat + '" ' +
+          'style="top:' + top + 'px;height:' + ht + 'px;' + st.css + (e._n > 1 ? ';left:calc(' + (e._lane*wpc) + '% + 2px);right:auto;width:calc(' + wpc + '% - 4px)' : '') + '" ' +
+          'title="' + esc(e.t0 + '–' + e.t1 + ' ' + e.title) + '">' +
+          '<b>' + esc(e.title) + '</b><small>' + e.t0 + '–' + e.t1 + '</small></button>';
+      });
+      if(k === todayKey){
+        var nm = today.getHours()*60 + today.getMinutes();
+        if(nm >= H0*60) h += '<div class="nowline" id="nowline" style="top:' + ((nm - H0*60)/60*hpx) + 'px"></div>';
+      }
+      h += '</div>';
+    });
+    $('#grid').innerHTML = h;
+    applyFilter();
+
+    /* scroll: alla colonna del giorno scelto / di oggi, e all'ora giusta */
+    var cal = $('#cal');
+    var target = focusDay || (days.some(function(d){ return key(d) === todayKey; }) ? todayKey : null);
+    var col = target ? cal.querySelector('.dh[data-day="' + target + '"]') : null;
+    if(!col){ col = Array.prototype.find.call(cal.querySelectorAll('.dh'), function(el){ return !el.classList.contains('empty'); }); }
+    var hcol = cal.querySelector('.hours').offsetWidth;
+    cal.scrollLeft = col ? Math.max(0, col.offsetLeft - hcol) : 0;
+    var nl = $('#nowline');
+    var startMin = nl ? Math.max(H0*60, today.getHours()*60 - 90) : 5.75*60;
+    cal.scrollTop = (startMin - H0*60) / 60 * hpx;
+    focusDay = null;
+  }
+
+  /* ---------- vista mese ---------- */
+  function renderMonth(){
+    $('#lbl').textContent = 'ottobre – novembre';
+    var h = WD.map(function(x){ return '<div class="mwd">' + x + '</div>'; }).join('');
+    var span = (H1 - H0) * 60;
+    weeks.forEach(function(w){
+      for(var i = 0; i < 7; i++){
+        var d = addD(w,i), k = key(d), x = byDate[k];
+        if(!x){ h += '<div class="mc empty"><div class="top"><span class="n">' + d.getDate() + '</span><span class="m">' + MO[d.getMonth()] + '</span></div></div>'; continue; }
+        var leg = CAL_LEGS[x.leg];
+        var rib = '';
+        for(var t = 1; t < H1 - H0; t++) if(t % 3 === 0) rib += '<span class="tick" style="top:' + (t/(H1-H0)*100) + '%"></span>';
+        x.ev.forEach(function(e){
+          var s = Math.max(e.s, H0*60), en = Math.min(e.e, H1*60); if(en <= s) return;
+          var c = (CAL_CATS[e.cat] || {color:'#888'}).color;
+          rib += '<i data-cat="' + e.cat + '" style="top:' + ((s - H0*60)/span*100) + '%;height:' + ((en - s)/span*100) + '%;background:' +
+            (e.flag === 'o' ? rgba(c,.45) : c) + '"></i>';
+        });
+        h += '<button type="button" class="mc' + (k === todayKey ? ' today' : '') + '" data-day="' + k + '">' +
+          '<div class="top" style="border-top-color:' + leg.color + '"><span class="n">' + d.getDate() + '</span><span class="m">' + MO[d.getMonth()] + '</span></div>' +
+          '<div class="t">' + esc(x.title) + '</div>' +
+          (x.allday ? '<div class="ad1" style="background:' + CAL_LEGS.perth.color + '">' + esc(x.allday) + '</div>' : '') +
+          '<div class="ribbon">' + rib + '</div></button>';
+      }
+    });
+    $('#mgrid').innerHTML = h;
+    applyFilter();
+    renderStats();
+  }
+
+  function renderStats(){
+    var tot = 0; Object.keys(totals).forEach(function(k){ tot += totals[k]; });
+    var keys = Object.keys(CAL_CATS).sort(function(a,b){ return totals[b] - totals[a]; });
+    var max = Math.max.apply(0, keys.map(function(k){ return totals[k]; }));
+    var drive = {west:0, east:0}, hikes = 0, longest = {m:0, d:null};
+    CAL_DAYS.forEach(function(d){
+      var dm = 0;
+      d.ev.forEach(function(e){ if(e.cat === 'guida'){ dm += e.e - e.s; if(drive[d.leg] != null) drive[d.leg] += e.e - e.s; } if(e.cat === 'natura' && e.flag !== 'o') hikes++; });
+      if(dm > longest.m) longest = {m:dm, d:d};
+    });
+    var ld = longest.d ? pd(longest.d.date) : null;
+    $('#stats').innerHTML = '<h2>Dove va il tempo</h2><p>Ore pianificate nel road trip (30 ott – 20 nov) per tipo di attivita\', sonno escluso. Tocca una voce della legenda in alto per evidenziarla nel calendario.</p>' +
+      '<div class="stack">' + keys.map(function(k){ return '<i style="width:' + (totals[k]/tot*100) + '%;background:' + CAL_CATS[k].color + '" title="' + esc(CAL_CATS[k].label) + '"></i>'; }).join('') + '</div>' +
+      keys.map(function(k){
+        return '<div class="srow"><span class="nm"><i style="background:' + CAL_CATS[k].color + '"></i>' + esc(CAL_CATS[k].label) + '</span>' +
+          '<span class="bt"><i style="width:' + (totals[k]/max*100) + '%;background:' + CAL_CATS[k].color + '"></i></span>' +
+          '<span class="v">' + (totals[k]/60).toLocaleString('it-IT',{maximumFractionDigits:0}) + ' h</span></div>';
+      }).join('') +
+      '<div class="facts">' +
+        '<div class="fact"><b>' + Math.round(drive.west/60) + ' h</b><span>al volante del van (Coral Coast)</span></div>' +
+        '<div class="fact"><b>' + Math.round(drive.east/60) + ' h</b><span>in auto (Great Ocean Road)</span></div>' +
+        (ld ? '<div class="fact"><b>' + fmtDur(longest.m) + '</b><span>la giornata piu\' lunga in auto: ' + WD[(ld.getDay()+6)%7] + ' ' + ld.getDate() + '/' + (ld.getMonth()+1) + '</span></div>' : '') +
+        '<div class="fact"><b>' + hikes + '</b><span>tappe di natura in programma (escluse le facoltative)</span></div>' +
+      '</div>';
+  }
+
+  /* ---------- dettaglio ---------- */
+  function openSheet(k, i){
+    var x = byDate[k], e = x.ev[i], c = CAL_CATS[e.cat] || {label:e.cat, color:'#888'}, d = pd(k);
+    var st = e.flag === 'f' ? 'Orario fisso / prenotato' : e.flag === 'o' ? 'Facoltativo · orario stimato' : 'Orario stimato';
+    var planner = x.leg === 'west' ? '../Perth_coast/piano_viaggio_west_coast.html' : x.leg === 'east' ? '../Adelaide_Melbourne/piano_viaggio_great_ocean_road.html' : null;
+    $('#sheet').innerHTML = '<div class="band" style="background:' + c.color + '"></div><div class="in">' +
+      '<button type="button" class="ib close" id="sheet-x" aria-label="Chiudi">✕</button>' +
+      '<span class="cat"><i style="background:' + c.color + '"></i>' + esc(c.label) + '</span>' +
+      '<h3>' + esc(e.title) + '</h3>' +
+      '<div class="when">' + WDL[(d.getDay()+6)%7] + ' ' + d.getDate() + ' ' + MO[d.getMonth()] + ' · ' + e.t0 + ' – ' + e.t1 + ' · ' + fmtDur(e.e - e.s) + '</div>' +
+      '<span class="st">' + st + '</span>' +
+      (e.note ? '<p class="note">' + esc(e.note) + '</p>' : '') +
+      '<div class="meta"><span><b>Giornata:</b> ' + esc(x.title) + '</span>' + (x.night ? '<span><b>Notte:</b> ' + esc(x.night) + '</span>' : '') + '<span><b>Fuso:</b> ' + esc(x.tz || '') + '</span></div>' +
+      (planner ? '<div class="acts"><a href="' + planner + '">Apri il planner ' + esc(CAL_LEGS[x.leg].label) + ' →</a></div>' : '') +
+      '</div>';
+    $('#sheet-bg').classList.add('open');
+    $('#sheet-x').onclick = closeSheet;
+  }
+  function closeSheet(){ $('#sheet-bg').classList.remove('open'); }
+  $('#sheet-bg').addEventListener('click', function(e){ if(e.target.id === 'sheet-bg') closeSheet(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeSheet();
+    if(view === 'week' && !$('#sheet-bg').classList.contains('open')){
+      if(e.key === 'ArrowLeft' && wi > 0){ wi--; renderWeek(); }
+      if(e.key === 'ArrowRight' && wi < weeks.length-1){ wi++; renderWeek(); }
+    }
+  });
+  $('#grid').addEventListener('click', function(e){
+    var b = e.target.closest('.ev'); if(b){ openSheet(b.dataset.day, +b.dataset.i); }
+  });
+  $('#mgrid').addEventListener('click', function(e){
+    var c = e.target.closest('.mc[data-day]'); if(!c) return;
+    var d = pd(c.dataset.day), m = +monday(d);
+    weeks.forEach(function(w,i){ if(+w === m) wi = i; });
+    focusDay = c.dataset.day; setView('week');
+  });
+
+  /* ---------- comandi ---------- */
+  function setView(v){
+    view = v; store.set('cal_view', v);
+    document.querySelectorAll('.seg button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.view === v); });
+    $('#v-week').hidden = v !== 'week'; $('#v-month').hidden = v !== 'month';
+    $('#prev').hidden = $('#next').hidden = v !== 'week';
+    if(v === 'week') renderWeek(); else renderMonth();
+  }
+  document.querySelectorAll('.seg button').forEach(function(b){ b.onclick = function(){ setView(b.dataset.view); }; });
+  $('#prev').onclick = function(){ if(wi > 0){ wi--; renderWeek(); } };
+  $('#next').onclick = function(){ if(wi < weeks.length-1){ wi++; renderWeek(); } };
+  $('#today').onclick = function(){
+    var t = monday(new Date()), found = -1;
+    weeks.forEach(function(w,i){ if(+w === +t) found = i; });
+    if(found < 0){ wi = new Date() < first ? 0 : weeks.length-1; }
+    else { wi = found; focusDay = todayKey; }
+    setView('week');
+  };
+  var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(function(){ if(view === 'week') renderWeek(); }, 200); });
+  /* linea "adesso" aggiornata ogni minuto */
+  setInterval(function(){ today = new Date(); if(key(today) !== todayKey){ todayKey = key(today); }
+    var nl = $('#nowline'); if(nl){ var hpx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hour')) || 44;
+      nl.style.top = ((today.getHours()*60 + today.getMinutes() - H0*60)/60*hpx) + 'px'; } }, 60000);
+
+  renderLegend();
+  setView(view);
+})();
+</script>
+<script src="../pwa.js" defer></script>
+</body>
+</html>
