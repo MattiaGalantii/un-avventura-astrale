@@ -49,7 +49,7 @@ const TRIP = [
         {t:"La filiale il martedi chiude alle 20:30", s:"Atterri alle 17:20: c'e margine vero, niente panico se i bagagli tardano."},
         {t:"Riconsegna 19/11 h 18:00 a Tullamarine", s:"2 Tarmac Dr, anche questa fuori dall'aeroporto. Da li SkyBus in citta (~30-45 min) per arrivare al Causeway 353."},
         {t:"Va aggiunto il secondo guidatore", s:"Sulla prenotazione c'e un solo guidatore. Aggiunta al ritiro: $11 al giorno con tetto a $50. Non dichiarata = non assicurata."},
-        {t:"Cauzione $1.000 pre-autorizzata", s:"Bloccata, non addebitata: molto piu gentile dei 5.000 del van. Carta dell'intestatario, che deve essere presente al banco."},
+        {t:"Cauzione $1.000 pre-autorizzata", s:"Bloccata, non addebitata. Carta dell'intestatario, che deve essere presente al banco."},
         {t:"Farsi dire la franchigia prima di firmare", s:"Sulla conferma la voce Excess e tagliata a '$5'. Chiedila al banco e valuta se ridurla."},
       ]},
       {h:"Da fare prima di partire", cls:"must", items:[
