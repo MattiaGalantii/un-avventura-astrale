@@ -50,21 +50,21 @@ const TRIP = [
     chips:["leggimi","van","da comprare","sole e mosche"],
     boxes:[
       {h:"Il van in pratica", cls:"prac", items:[
-        {t:"Mighty Duo - 9 giorni", s:"Ritiro dom 1/11 h 9:00, riconsegna lun 9/11 h 14:30. Sempre a 2 Redcliffe Road, Redcliffe WA 6014."},
-        {t:"La filiale chiude alle 15:30", s:"Il contratto chiede di arrivare entro le 15:00: le 14:30 sono gia il limite, non c'e margine."},
+        {t:"Mighty Duo - 9 giorni", s:"Ritiro dom 1/11 h 9:00, riconsegna lun 9/11 h 14:30. Sempre a 2 Redcliffe Road, Redcliffe WA 6104. Booking intestato a Mattia."},
+        {t:"La filiale chiude alle 15:00", s:"Ritiro e riconsegna solo 9:00-15:00. La riconsegna prenotata e alle 14:30: margine minimo, in ritardo sono $150."},
         {t:"Gia a bordo: non ricomprarlo", s:"Cucina completa (pentole, posate, bollitore, tostapane), lenzuola, cuscini e asciugamani, stendino e mollette, secchio, tubo, paletta e scopetta, estintore. Pannello solare e 240V."},
         {t:"Il tavolo si sposta fuori", s:"Il tavolo da pranzo del van diventa tavolino da esterno: il tavolino da campeggio non serve."},
-        {t:"Cauzione: $5.000 addebitati davvero", s:"Con 'The Low Road' i 5.000 vengono prelevati dalla carta, non bloccati. Visa o Mastercard intestata a chi firma, che deve essere presente al banco. Rimborso fino a 14 giorni lavorativi dopo la riconsegna."},
+        {t:"Gia tutto pagato: AUD 2.133", s:"Saldo al ritiro AUD 0. Dentro: noleggio $1.422, The High Road $495, parabrezza e gomme $135, bombola del gas $45, secondo guidatore $36."},
+        {t:"Niente cauzione: The High Road", s:"Al check-in e stata presa 'The High Road': franchigia $0 e nessuna cauzione su un 2WD. Serve comunque la carta di credito di Mattia (intestatario, presente al banco) per eventuali extra: pedaggi, multe, carburante, pulizia."},
         {t:"Foto a tutto al ritiro", s:"Carrozzeria, interni, livello del carburante e contachilometri. Controlla che ogni graffio sia sul Vehicle Condition Report."}
       ]},
       {h:"Da fare prima di partire", cls:"must", items:[
         {t:"1. Patente internazionale (IDP)", s:"La patente e registrata come italiana e il contratto vuole patente in inglese o traduzione accreditata. Senza, il van non lo consegnano."},
-        {t:"2. Poi il check-in online", s:"Si fa dopo aver ottenuto l'IDP."},
-        {t:"3. Al check-in: assicurazione parabrezza e gomme", s:"$15 al giorno, ~$135 in totale. Con 'Low Road' gomme e parabrezza NON sono coperti; il pacchetto copre 1 parabrezza o 3 riparazioni di scheggiature e 2 gomme."},
+        {t:"2. Check-in online: FATTO", s:"Contratto accettato da Mattia il 6 ott. Conferma e contratto sono tra i documenti."},
+        {t:"3. Assicurazione parabrezza e gomme: FATTO", s:"Presa al check-in ($135): copre 1 parabrezza o 3 riparazioni di scheggiature e 2 gomme."},
         {t:"Parks WA Holiday Pass", s:"Copre Nambung (Pinnacles), Kalbarri e Francois Peron. Da comprare online o al primo parco."},
         {t:"Monkey Mia: biglietto a parte", s:"Il Conservation Park ha un ingresso suo, non e incluso nel pass."},
-        {t:"Assicurazione viaggio: FATTA", s:"Il contratto declina ogni responsabilita sugli infortuni, quindi era il pezzo importante."},
-        {t:"Carta con $5.000 disponibili", s:"Verifica il plafond prima di partire: l'addebito e immediato."}
+        {t:"Assicurazione viaggio: FATTA", s:"Il contratto declina ogni responsabilita sugli infortuni, quindi era il pezzo importante."}
       ]},
       {h:"Da comprare a Perth", cls:"extra", items:[
         {t:"Chimico per il WC", s:"Il van ha la toilette ma il prodotto non e incluso. Supercheap Auto, BCF o Kmart. Con l'idea di usarla il meno possibile ne basta poco."},
