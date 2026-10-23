@@ -260,7 +260,9 @@
       if(p.leg === 'all') p.leg = 'gen';
       var tel = p.tel ? '<a href="tel:' + esc(p.tel.replace(/[^+0-9]/g, '')) + '">☎ ' + esc(p.tel) + '</a>' : '';
       var mail = p.contatto ? '<a href="mailto:' + esc(p.contatto) + '">✉ ' + esc(p.contatto) + '</a>' : '';
-      var doc = p.doc ? '<a href="' + docHref(p.doc) + '">📄 Documento</a>' : '';
+      var doc = (p.docs && p.docs.length)
+        ? p.docs.map(function(x){ return '<a href="' + docHref(x.file) + '">📄 ' + esc(x.label || 'Documento') + '</a>'; }).join('')
+        : (p.doc ? '<a href="' + docHref(p.doc) + '">📄 Documento</a>' : '');
       return '<div class="card pc ' + esc(p.leg || '') + '"><div class="top"><h3>' + esc(p.titolo) + '</h3></div>' +
         '<div class="who">' + esc(p.chi || '') + '</div><div class="when">' + esc(p.quando || '') + '</div>' +
         (p.codice ? '<div class="code"><span><small>' + esc(p.codiceLabel || 'Codice') + '</small><br><b>' + esc(p.codice) + '</b></span><button type="button" data-copy="' + esc(p.codice) + '">Copia</button></div>' : '') +
