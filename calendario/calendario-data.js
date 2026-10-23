@@ -98,7 +98,7 @@ const CAL_DAYS = [
     ev:[
       ["7:00","7:45","cibo","Colazione + check-out","",""],
       ["7:45","8:45","trasporti","Bus → Redcliffe","",""],
-      ["9:00","10:00","logistica","Ritiro van Mighty Duo","f","2 Redcliffe Rd. Foto a tutto, IDP, cauzione $5.000."],
+      ["9:00","10:00","logistica","Ritiro van Mighty Duo","f","2 Redcliffe Rd. Mattia con la sua carta, patenti + IDP. Già pagato, niente cauzione. Foto a tutto."],
       ["10:00","11:00","logistica","Spesa grossa + pieno","","Chimico WC, retina antimosche, frontalini, tanica."],
       ["11:00","13:30","guida","Perth → Cervantes","","~2:30 h, Indian Ocean Drive."],
       ["13:30","14:30","cibo","Pranzo al Lobster Shack","",""],
@@ -206,7 +206,7 @@ const CAL_DAYS = [
       ["12:00","12:45","cibo","Pranzo veloce Swan Valley","o","Niente degustazione: limite 0,05."],
       ["12:45","13:45","logistica","Pieno + pulizia van","","Carburante allo stesso livello del ritiro."],
       ["13:45","14:05","guida","→ Redcliffe","",""],
-      ["14:05","14:30","logistica","Riconsegna van","f","Entro le 14:30. Foto a tutto."],
+      ["14:05","14:30","logistica","Riconsegna van","f","Entro le 14:30 (ritardo $150). Serbatoi vuoti, pieno fatto. Foto a tutto."],
       ["14:30","15:00","trasporti","→ Sunlit Minimal","",""],
       ["15:00","15:30","logistica","Check-in hotel","",""],
       ["15:30","18:30","relax","Riposo","",""],
